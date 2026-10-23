@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Notaufnahme · Anti Medi Medi Club</title>
+<meta name="description" content="Live-Status des Anti Medi Medi Club Minecraft-Servers">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23d7263d'/><path d='M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z' fill='white'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #eef3f1;
+  --card: #ffffff;
+  --ink: #14211d;
+  --muted: #5b6b66;
+  --line: #d6e0dc;
+  --red: #d7263d;
+  --green: #12a150;
+  --green-soft: #e3f5ea;
+  --red-soft: #fbe6e9;
+  --grey-soft: #e6eae9;
+  --monitor: #0b1512;
+  --monitor-line: #1d2b27;
+  --shadow: 0 1px 2px rgba(20,33,29,.06), 0 8px 24px rgba(20,33,29,.06);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1311; --card: #141e1b; --ink: #e6efec; --muted: #8fa19b; --line: #24332e;
+    --green-soft: #0f2a1b; --red-soft: #2e1217; --grey-soft: #1b2421; --monitor: #050a08; --monitor-line: #14211d;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1311; --card: #141e1b; --ink: #e6efec; --muted: #8fa19b; --line: #24332e;
+  --green-soft: #0f2a1b; --red-soft: #2e1217; --grey-soft: #1b2421; --monitor: #050a08; --monitor-line: #14211d;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 "IBM Plex Sans", system-ui, sans-serif;
+  min-height: 100vh;
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 28px 16px 48px; }
+
+/* Header */
+header { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+.cross {
+  width: 46px; height: 46px; border-radius: 11px; background: var(--red);
+  display: grid; place-items: center; flex: none;
+}
+.cross svg { width: 26px; height: 26px; }
+.brand small { display: block; color: var(--muted); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+.brand h1 { margin: 0; font-size: 26px; line-height: 1.15; letter-spacing: -.01em; }
+
+/* Status banner */
+.status {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 18px; border-radius: 14px; margin-bottom: 14px;
+  background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow);
+}
+.status .lamp { width: 14px; height: 14px; border-radius: 50%; background: var(--muted); flex: none; }
+.status.alive { background: var(--green-soft); border-color: transparent; }
+.status.alive .lamp { background: var(--green); animation: ping 2s infinite; }
+.status.dead { background: var(--red-soft); border-color: transparent; }
+.status.dead .lamp { background: var(--red); }
+.status.nosignal { background: var(--grey-soft); border-color: transparent; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 rgba(18,161,80,.5); } 80%,100% { box-shadow: 0 0 0 12px rgba(18,161,80,0); } }
+.status h2 { margin: 0; font-size: 19px; }
+.status p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+
+/* ECG monitor */
+.monitor {
+  --trace: #39ff88;
+  background: var(--monitor); border-radius: 14px; overflow: hidden; position: relative;
+  border: 1px solid var(--monitor-line); margin-bottom: 14px;
+}
+.monitor.dead { --trace: #ff4d5e; }
+.monitor.nosignal { --trace: #7d8c87; }
+.monitor canvas { display: block; width: 100%; height: 130px; }
+.monitor .hud {
+  position: absolute; top: 10px; right: 14px; text-align: right;
+  font-family: "IBM Plex Mono", monospace; color: var(--trace);
+}
+.monitor .hud .bpm { font-size: 34px; font-weight: 600; line-height: 1; }
+.monitor .hud .lbl { font-size: 11px; opacity: .7; letter-spacing: .1em; }
+.monitor .tag {
+  position: absolute; left: 14px; top: 10px; font: 600 11px "IBM Plex Mono", monospace;
+  color: var(--trace); opacity: .7; letter-spacing: .1em;
+}
+.monitor .alarm {
+  position: absolute; left: 14px; bottom: 10px; font: 600 12px "IBM Plex Mono", monospace;
+  color: var(--trace); letter-spacing: .08em; display: none;
+}
+.monitor.dead .alarm, .monitor.nosignal .alarm { display: block; }
+.monitor.dead .alarm { animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* Grid */
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
+  padding: 16px 18px; box-shadow: var(--shadow);
+}
+.card h3 { margin: 0 0 10px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 500; }
+
+/* Dienstplan */
+.slots { display: flex; gap: 8px; margin: 6px 0 10px; }
+.slot {
+  flex: 1; height: 38px; border-radius: 8px; border: 2px dashed var(--line);
+  display: grid; place-items: center; font-size: 18px;
+}
+.slot.taken { border: 2px solid var(--green); background: var(--green-soft); }
+.big { font-size: 28px; font-weight: 700; line-height: 1.1; }
+.sub { color: var(--muted); font-size: 14px; }
+
+/* Ärzte */
+.doctors { list-style: none; margin: 0; padding: 0; }
+.doctors li { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); }
+.doctors li:first-child { border-top: 0; }
+.doctors img { width: 32px; height: 32px; border-radius: 6px; image-rendering: pixelated; background: var(--line); }
+.doctors .name { font-weight: 500; }
+.doctors .dx { color: var(--muted); font-size: 13px; }
+.empty { color: var(--muted); font-size: 14px; margin: 0; }
+
+/* Adresse */
+.addr { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.addr code {
+  font: 600 17px "IBM Plex Mono", monospace; background: var(--bg); padding: 8px 12px;
+  border-radius: 8px; border: 1px solid var(--line); word-break: break-all;
+}
+button, .btn {
+  font: 500 14px "IBM Plex Sans", sans-serif; cursor: pointer;
+  border: 1px solid var(--line); background: var(--card); color: var(--ink);
+  padding: 8px 14px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+}
+button:hover, .btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--red); border-color: var(--red); color: #fff; }
+.btn.primary:hover { filter: brightness(1.08); }
+
+.links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
+.meta { font: 13px "IBM Plex Mono", monospace; color: var(--muted); }
+.meta div { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
+.meta b { color: var(--ink); font-weight: 600; text-align: right; }
+
+footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 26px; }
+.quote { font-style: italic; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="cross" aria-hidden="true">
+      <svg viewBox="0 0 26 26"><path d="M9.5 2h7v7.5H24v7h-7.5V24h-7v-7.5H2v-7h7.5z" fill="#fff"/></svg>
+    </div>
+    <div class="brand">
+      <small>Anti Medi Medi Club · Uniklinik</small>
+      <h1>Zentrale Notaufnahme</h1>
+    </div>
+  </header>
+
+  <div class="status" id="status">
+    <div class="lamp"></div>
+    <div>
+      <h2 id="statusTitle">Vitalparameter werden erhoben …</h2>
+      <p id="statusText">Monitor wird angeschlossen.</p>
+    </div>
+  </div>
+
+  <div class="monitor" id="monitor">
+    <span class="tag">EKG · II</span>
+    <canvas id="ecg"></canvas>
+    <div class="hud"><div class="bpm" id="hr">--</div><div class="lbl">HR</div></div>
+    <span class="alarm" id="alarm"></span>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Dienstplan</h3>
+      <div class="big" id="occ">–</div>
+      <div class="slots" id="slots"></div>
+      <div class="sub" id="occText">&nbsp;</div>
+    </div>
+    <div class="card">
+      <h3>Ärzte im Dienst</h3>
+      <ul class="doctors" id="doctors"></ul>
+      <p class="empty" id="noDoctors">&nbsp;</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <h3>Zum Dienst melden</h3>
+    <div class="addr">
+      <code id="addr">play.antimedimedis.de</code>
+      <button id="copy" type="button">Adresse kopieren</button>
+    </div>
+    <div class="links">
+      <a class="btn primary" href="http://map.antimedimedis.de:10063" target="_blank" rel="noopener">🩻 Radiologie (Karte)</a>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Klinikdaten</h3>
+    <div class="meta">
+      <div><span>Behandlungsmethode</span><b id="ver">–</b></div>
+      <div><span>Leitspruch</span><b id="motd">–</b></div>
+      <div><span>Letzte Visite</span><b id="checked">–</b></div>
+      <div><span>Approbation</span><b>nur mit Whitelist</b></div>
+    </div>
+  </div>
+
+  <footer>
+    <p class="quote" id="quote"></p>
+    <p>Aktualisiert sich jede Minute · Status via mcstatus.io</p>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var HOST = "play.antimedimedis.de";
+  var REFRESH_MS = 60000;
+
+  var specialties = [
+    "Creeper-Chirurgie", "Lava-Dermatologie", "Nether-Psychiatrie", "Redstone-Neurologie",
+    "Enderman-Ophthalmologie", "Villager-Psychotherapie", "Sturz-Traumatologie",
+    "Phantom-Schlafmedizin", "Diamant-Radiologie", "Zombie-Infektiologie",
+    "Skelett-Orthopädie", "Schleim-Gastroenterologie", "Elytra-Flugmedizin", "Ghast-HNO"
+  ];
+  var quotes = [
+    "„Haben Sie schon versucht, sich aus- und wieder einzuloggen?“",
+    "„Zwei Herzen sind kein Grund zur Sorge. Ein halbes schon.“",
+    "„Bitte keine Betten im Nether benutzen.“",
+    "„Goldene Äpfel sind keine Kassenleistung.“",
+    "„Der Creeper wollte nur kuscheln.“",
+    "„Totem der Unsterblichkeit: nur auf Rezept.“",
+    "„Wer heilt, hat recht. Wer respawnt, auch.“"
+  ];
+  document.getElementById("quote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+
+  function hash(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); }
+
+  // --- EKG ---------------------------------------------------------------
+  // state: "unknown" | "alive" (Ärzte online) | "dead" (Server leer, Asystolie) | "nosignal" (Server offline)
+  var canvas = document.getElementById("ecg");
+  var ctx = canvas.getContext("2d");
+  var monitor = document.getElementById("monitor");
+  var state = "unknown";
+  var pts = [], x = 0, W = 0, H = 0, t = 0;
+  var beatInterval = 100; // samples per beat (2 samples per frame, ~60 fps)
+  function resize() {
+    var dpr = window.devicePixelRatio || 1;
+    W = canvas.clientWidth; H = canvas.clientHeight;
+    canvas.width = W * dpr; canvas.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    pts = new Array(Math.ceil(W)).fill(null); x = 0;
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  function ecgValue(phase) {
+    // PQRST über phase 0..1
+    if (phase < 0.10) return Math.sin(phase / 0.10 * Math.PI) * 0.12;          // P
+    if (phase < 0.16) return 0;
+    if (phase < 0.18) return -0.15;                                            // Q
+    if (phase < 0.21) return 1.0;                                              // R
+    if (phase < 0.24) return -0.3;                                             // S
+    if (phase < 0.34) return 0;
+    if (phase < 0.50) return Math.sin((phase - 0.34) / 0.16 * Math.PI) * 0.25; // T
+    return 0;
+  }
+
+  function step() {
+    for (var s = 0; s < 2; s++) {
+      var v;
+      if (state === "alive") {
+        var phase = (t % beatInterval) / beatInterval;
+        v = ecgValue(Math.min(1, phase / 0.6)) + (Math.random() - 0.5) * 0.02;
+      } else if (state === "dead") {
+        v = (Math.random() - 0.5) * 0.008;
+      } else if (state === "nosignal") {
+        v = (Math.random() - 0.5) * 0.25 * (Math.random() < 0.15 ? 1 : 0.15); // Elektrodenrauschen
+      } else {
+        v = Math.sin(t / 8) * 0.04;
+      }
+      pts[x] = v; t++;
+      x = (x + 1) % pts.length;
+      for (var g = 1; g <= 4; g++) pts[(x + g) % pts.length] = null;
+    }
+    draw();
+    requestAnimationFrame(step);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    var color = getComputedStyle(monitor).getPropertyValue("--trace").trim() || "#39ff88";
+    ctx.strokeStyle = "rgba(57,255,136,0.07)"; ctx.lineWidth = 1;
+    for (var gx = 0; gx < W; gx += 20) { ctx.beginPath(); ctx.moveTo(gx + .5, 0); ctx.lineTo(gx + .5, H); ctx.stroke(); }
+    for (var gy = 0; gy < H; gy += 20) { ctx.beginPath(); ctx.moveTo(0, gy + .5); ctx.lineTo(W, gy + .5); ctx.stroke(); }
+    ctx.strokeStyle = color; ctx.lineWidth = 2; ctx.lineJoin = "round";
+    ctx.shadowColor = color; ctx.shadowBlur = 6;
+    var mid = H * 0.62, amp = H * 0.48;
+    ctx.beginPath();
+    var pen = false;
+    for (var i = 0; i < pts.length; i++) {
+      var p = pts[i];
+      if (p === null || p === undefined) { pen = false; continue; }
+      var y = mid - p * amp;
+      if (!pen) { ctx.moveTo(i, y); pen = true; } else ctx.lineTo(i, y);
+    }
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+    var hp = pts[(x - 1 + pts.length) % pts.length];
+    if (hp !== null && hp !== undefined) {
+      ctx.fillStyle = color; ctx.beginPath(); ctx.arc(x - 1, mid - hp * amp, 3, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+  requestAnimationFrame(step);
+
+  // --- Status ------------------------------------------------------------
+  var el = function (id) { return document.getElementById(id); };
+
+  function render(d) {
+    var online = !!(d && d.online);
+    var players = online && d.players ? d.players : { online: 0, max: 4, list: [] };
+    var max = players.max || 4, n = players.online || 0;
+    state = !online ? "nosignal" : n > 0 ? "alive" : "dead";
+
+    el("status").className = "status " + state;
+    monitor.className = "monitor " + state;
+
+    // HR: 0 ohne Ärzte, danach 72 / 94 / 116 / 138
+    var hr = state === "alive" ? 50 + n * 22 : 0;
+    if (hr) beatInterval = Math.round(7200 / hr);
+    el("hr").textContent = state === "nosignal" ? "--" : String(hr);
+    el("alarm").textContent = state === "dead" ? "ASYSTOLIE" : state === "nosignal" ? "KEIN SIGNAL · ELEKTRODE PRÜFEN" : "";
+
+    if (state === "alive") {
+      el("statusTitle").textContent = n >= max ? "Volle Besetzung · Klinik läuft auf Hochtouren" : "Klinik in Betrieb · " + n + (n === 1 ? " Arzt" : " Ärzte") + " im Dienst";
+      el("statusText").textContent = n >= max ? "Alle Dienstplätze belegt. Bitte auf Schichtwechsel warten." : "Freie Dienstplätze vorhanden. Komm dazu, Kollege!";
+    } else if (state === "dead") {
+      el("statusTitle").textContent = "Klinisch tot 💀";
+      el("statusText").textContent = "Kein Arzt im Dienst. Sofort reanimieren: einloggen!";
+    } else {
+      el("statusTitle").textContent = "Kein Signal 📡";
+      el("statusText").textContent = "Der Server ist nicht erreichbar. Technik ist informiert.";
+    }
+
+    // Dienstplan
+    el("occ").textContent = online ? n + " / " + max : "– / " + max;
+    var slots = el("slots"); slots.innerHTML = "";
+    for (var i = 0; i < max; i++) {
+      var b = document.createElement("div");
+      b.className = "slot" + (i < n ? " taken" : "");
+      b.textContent = i < n ? "🩺" : "";
+      b.title = i < n ? "besetzt" : "frei";
+      slots.appendChild(b);
+    }
+    el("occText").textContent = !online ? "Klinik außer Betrieb"
+      : n === 0 ? "Niemand im Dienst"
+      : n >= max ? "Keine Plätze frei"
+      : (max - n) + " Platz" + (max - n === 1 ? "" : "e") + " frei";
+
+    // Ärzte
+    var list = el("doctors"); list.innerHTML = "";
+    var arr = players.list || [];
+    arr.forEach(function (p) {
+      var name = p.name_clean || p.name || "Unbekannt";
+      var li = document.createElement("li");
+      var img = document.createElement("img");
+      img.alt = ""; img.loading = "lazy";
+      img.src = "https://mc-heads.net/avatar/" + encodeURIComponent(p.uuid || name) + "/32";
+      var info = document.createElement("div");
+      var nm = document.createElement("div"); nm.className = "name"; nm.textContent = "Dr. " + name;
+      var dx = document.createElement("div"); dx.className = "dx";
+      dx.textContent = "Fachrichtung: " + specialties[hash(name + new Date().toDateString()) % specialties.length];
+      info.appendChild(nm); info.appendChild(dx);
+      li.appendChild(img); li.appendChild(info);
+      list.appendChild(li);
+    });
+    var hidden = n - arr.length;
+    if (online && hidden > 0) {
+      var li2 = document.createElement("li");
+      var sp = document.createElement("span"); sp.className = "dx";
+      sp.textContent = "+ " + hidden + " weitere im Dienst";
+      li2.appendChild(sp); list.appendChild(li2);
+    }
+    el("noDoctors").style.display = state === "alive" ? "none" : "block";
+    el("noDoctors").textContent = state === "dead" ? "Station verwaist. Nur der Monitor piept." : "Klinik außer Betrieb.";
+
+    el("ver").textContent = online && d.version ? (d.version.name_clean || d.version.name || "–") : "–";
+    el("motd").textContent = online && d.motd ? (d.motd.clean || "–").trim() : "–";
+    el("checked").textContent = new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  }
+
+  function load() {
+    // Vorschau ohne echten Server: #demo (3 Ärzte), #leer (klinisch tot), #offline (kein Signal)
+    var demo = { online: true, version: { name_clean: "Paper 26.3" }, motd: { clean: "Anti Medi Medi Club" } };
+    if (location.hash === "#demo") { demo.players = { online: 3, max: 4, list: [{ name_clean: "MinzMeister" }, { name_clean: "Pischinger" }, { name_clean: "Creeper" }] }; return render(demo); }
+    if (location.hash === "#leer") { demo.players = { online: 0, max: 4, list: [] }; return render(demo); }
+    if (location.hash === "#offline") return render({ online: false });
+    fetch("https://api.mcstatus.io/v2/status/java/" + HOST, { cache: "no-store" })
+      .then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); })
+      .then(render)
+      .catch(function () {
+        el("statusTitle").textContent = "Messgerät gestört";
+        el("statusText").textContent = "Der Status konnte gerade nicht abgefragt werden. Neuer Versuch in einer Minute.";
+      });
+  }
+  load();
+  setInterval(load, REFRESH_MS);
+  window.addEventListener("hashchange", load);
+
+  // --- Adresse kopieren ---------------------------------------------------
+  el("copy").addEventListener("click", function () {
+    var txt = el("addr").textContent, btn = this;
+    var done = function () { btn.textContent = "Kopiert ✓"; setTimeout(function () { btn.textContent = "Adresse kopieren"; }, 1800); };
+    if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, done); else done();
+  });
+})();
+</script>
+</body>
+</html>
