@@ -21,6 +21,7 @@
   --green-soft: #e3f5ea;
   --red-soft: #fbe6e9;
   --grey-soft: #e6eae9;
+  --note: #fff3b0;
   --monitor: #0b1512;
   --monitor-line: #1d2b27;
   --shadow: 0 1px 2px rgba(20,33,29,.06), 0 8px 24px rgba(20,33,29,.06);
@@ -29,12 +30,14 @@
   :root:not([data-theme="light"]) {
     --bg: #0c1311; --card: #141e1b; --ink: #e6efec; --muted: #8fa19b; --line: #24332e;
     --green-soft: #0f2a1b; --red-soft: #2e1217; --grey-soft: #1b2421; --monitor: #050a08; --monitor-line: #14211d;
+    --note: #e8d98a;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
   }
 }
 :root[data-theme="dark"] {
   --bg: #0c1311; --card: #141e1b; --ink: #e6efec; --muted: #8fa19b; --line: #24332e;
   --green-soft: #0f2a1b; --red-soft: #2e1217; --grey-soft: #1b2421; --monitor: #050a08; --monitor-line: #14211d;
+  --note: #e8d98a;
   --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
 }
 * { box-sizing: border-box; }
@@ -148,6 +151,41 @@ button:hover, .btn:hover { border-color: var(--muted); }
 .meta div { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
 .meta b { color: var(--ink); font-weight: 600; text-align: right; }
 
+/* Schwarzes Brett */
+.board { margin-bottom: 14px; }
+.board h3 .count { color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
+.board-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 560px) { .board-cols { grid-template-columns: 1fr; } }
+.todos, .places { list-style: none; margin: 0; padding: 0; }
+.todos li { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-top: 1px solid var(--line); }
+.todos li:first-child, .places li:first-child { border-top: 0; }
+.todos .box {
+  flex: none; width: 18px; height: 18px; margin-top: 3px; border-radius: 5px;
+  border: 2px solid var(--muted); display: grid; place-items: center; font-size: 12px; line-height: 1; color: #fff;
+}
+.todos li.done .box { background: var(--green); border-color: var(--green); }
+.todos li.done .txt { text-decoration: line-through; color: var(--muted); }
+.who { color: var(--muted); font-size: 12px; }
+.notes { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.note {
+  background: var(--note); color: #2b2410; padding: 12px 12px 10px; border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.12); font-size: 14px; position: relative; word-wrap: break-word;
+}
+.note:nth-child(odd) { transform: rotate(-1deg); }
+.note:nth-child(even) { transform: rotate(1deg); }
+.note::before {
+  content: ""; position: absolute; top: -5px; left: 50%; width: 10px; height: 10px; margin-left: -5px;
+  border-radius: 50%; background: var(--red); box-shadow: 0 1px 2px rgba(0,0,0,.3);
+}
+.note .who { color: #6b5d33; display: block; margin-top: 6px; }
+.places li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); flex-wrap: wrap; }
+.places .coords { font: 13px "IBM Plex Mono", monospace; color: var(--muted); }
+.places a { color: var(--red); font-size: 13px; text-decoration: none; white-space: nowrap; }
+.places a:hover { text-decoration: underline; }
+.dim { font-size: 11px; padding: 1px 6px; border-radius: 99px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); margin-left: 6px; }
+.hint { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
+.hint code { font-family: "IBM Plex Mono", monospace; font-size: 12px; background: var(--bg); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--line); }
+
 footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 26px; }
 .quote { font-style: italic; }
 </style>
@@ -193,6 +231,26 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
       <p class="empty" id="noDoctors">&nbsp;</p>
     </div>
   </div>
+
+  <div class="card board">
+    <h3>Schwarzes Brett · To-dos <span class="count" id="todoCount"></span></h3>
+    <ul class="todos" id="todos"></ul>
+    <p class="empty" id="noTodos">Keine offenen Aufgaben.</p>
+  </div>
+
+  <div class="board-cols board">
+    <div class="card">
+      <h3>Pinnwand</h3>
+      <div class="notes" id="notes"></div>
+      <p class="empty" id="noNotes">Noch nichts angepinnt.</p>
+    </div>
+    <div class="card">
+      <h3>Wichtige Orte</h3>
+      <ul class="places" id="places"></ul>
+      <p class="empty" id="noPlaces">Noch keine Orte gespeichert.</p>
+    </div>
+  </div>
+  <p class="hint" style="margin:-4px 0 14px">Eintragen im Spiel: <code>/todo add …</code> · <code>/todo erledigt 3</code> · <code>/notiz add …</code> · <code>/ort add Basis</code> <span id="boardUpdated"></span></p>
 
   <div class="card" style="margin-bottom:14px">
     <h3>Zum Dienst melden</h3>
@@ -419,6 +477,93 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
   load();
   setInterval(load, REFRESH_MS);
   window.addEventListener("hashchange", load);
+
+  // --- Schwarzes Brett ------------------------------------------------------
+  // board.json schreibt das Plugin "SchwarzesBrett" vom Server aus ins Repo.
+  var BOARD_API = "https://api.github.com/repos/olelliu/notaufnahme/contents/board.json";
+  var BOARD_RAW = "https://raw.githubusercontent.com/olelliu/notaufnahme/main/board.json";
+  var MAP_URL = "http://map.antimedimedis.de:10063/";
+  var MAP_IDS = { overworld: "world", nether: "world_the_nether", end: "world_the_end" };
+  var DIM_LABEL = { overworld: "Overworld", nether: "Nether", end: "End" };
+
+  function ago(iso) {
+    if (!iso) return "";
+    var s = Math.round((Date.now() - new Date(iso).getTime()) / 1000);
+    if (s < 60) return "gerade eben";
+    if (s < 3600) return "vor " + Math.round(s / 60) + " Min.";
+    if (s < 86400) return "vor " + Math.round(s / 3600) + " Std.";
+    return "vor " + Math.round(s / 86400) + " Tag" + (Math.round(s / 86400) === 1 ? "" : "en");
+  }
+  function node(tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+
+  function renderBoard(b) {
+    b = b || {};
+    var todos = (b.todos || []).slice().sort(function (x, y) { return (x.done - y.done) || (x.id - y.id); });
+    var open = todos.filter(function (t) { return !t.done; }).length;
+    el("todoCount").textContent = todos.length ? "(" + open + " offen)" : "";
+    var ul = el("todos"); ul.innerHTML = "";
+    todos.forEach(function (t) {
+      var li = node("li", t.done ? "done" : "");
+      li.appendChild(node("span", "box", t.done ? "✓" : ""));
+      var d = node("div");
+      d.appendChild(node("div", "txt", t.text));
+      d.appendChild(node("div", "who", "#" + t.id + " · " + (t.done ? "erledigt von Dr. " + (t.doneBy || "?") : "von Dr. " + t.author + " · " + ago(t.created))));
+      li.appendChild(d); ul.appendChild(li);
+    });
+    el("noTodos").style.display = todos.length ? "none" : "block";
+
+    var notes = el("notes"); notes.innerHTML = "";
+    (b.notes || []).slice().reverse().forEach(function (n) {
+      var c = node("div", "note", n.text);
+      c.appendChild(node("span", "who", "Dr. " + n.author + " · " + ago(n.created)));
+      notes.appendChild(c);
+    });
+    el("noNotes").style.display = (b.notes || []).length ? "none" : "block";
+
+    var pl = el("places"); pl.innerHTML = "";
+    (b.places || []).forEach(function (p) {
+      var li = node("li");
+      var left = node("div");
+      var name = node("span", null, p.name); name.style.fontWeight = "500";
+      left.appendChild(name);
+      left.appendChild(node("span", "dim", DIM_LABEL[p.dim] || "Overworld"));
+      left.appendChild(node("div", "coords", p.x + " / " + p.y + " / " + p.z));
+      var a = node("a", null, "🩻 auf Karte");
+      a.href = MAP_URL + "#" + (MAP_IDS[p.dim] || "world") + ":" + p.x + ":" + p.y + ":" + p.z + ":150:0:0:0:0:perspective";
+      a.target = "_blank"; a.rel = "noopener";
+      li.appendChild(left); li.appendChild(a); pl.appendChild(li);
+    });
+    el("noPlaces").style.display = (b.places || []).length ? "none" : "block";
+    el("boardUpdated").textContent = b.updated ? "· zuletzt geändert " + ago(b.updated) : "";
+  }
+
+  function loadBoard() {
+    if (location.hash === "#demo") {
+      var t = new Date(Date.now() - 3600e3).toISOString();
+      return renderBoard({ updated: t,
+        todos: [{ id: 1, text: "Nether-Portal an der Basis bauen", done: false, author: "MinzMeister", created: t },
+                { id: 2, text: "Villager-Handelshalle", done: false, author: "Pischinger", created: t },
+                { id: 3, text: "Diamanten für Rüstung farmen", done: true, author: "Pischinger", doneBy: "MinzMeister", created: t }],
+        notes: [{ id: 1, text: "Wer die Kühe angezündet hat: melden!", author: "MinzMeister", created: t },
+                { id: 2, text: "Freitag 20 Uhr: Wither-Kampf", author: "Pischinger", created: t }],
+        places: [{ id: 1, name: "Basis", x: 1891, y: 88, z: 3840, dim: "overworld" },
+                 { id: 2, name: "Festung", x: 240, y: 70, z: 480, dim: "nether" }] });
+    }
+    fetch(BOARD_API, { headers: { Accept: "application/vnd.github.raw+json" }, cache: "no-store" })
+      .then(function (r) {
+        if (r.status === 404) return {};
+        if (!r.ok) throw new Error(r.status);
+        return r.json();
+      })
+      .catch(function () { // z. B. API-Limit erreicht: auf die (bis zu 5 Min. alte) Raw-Datei ausweichen
+        return fetch(BOARD_RAW).then(function (r) { return r.ok ? r.json() : {}; });
+      })
+      .then(renderBoard)
+      .catch(function () { renderBoard({}); });
+  }
+  loadBoard();
+  setInterval(loadBoard, 120000);
+  window.addEventListener("hashchange", loadBoard);
 
   // --- Adresse kopieren ---------------------------------------------------
   el("copy").addEventListener("click", function () {
