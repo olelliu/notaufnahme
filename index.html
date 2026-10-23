@@ -232,6 +232,10 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
     "Phantom-Schlafmedizin", "Diamant-Radiologie", "Zombie-Infektiologie",
     "Skelett-Orthopädie", "Schleim-Gastroenterologie", "Elytra-Flugmedizin", "Ghast-HNO"
   ];
+  // Feste Fachrichtungen, die nicht täglich wechseln (Name in Kleinbuchstaben)
+  var fixedSpecialties = {
+    "pischinger": "Urologie & Fertilitätsmedizin"
+  };
   var quotes = [
     "„Haben Sie schon versucht, sich aus- und wieder einzuloggen?“",
     "„Zwei Herzen sind kein Grund zur Sorge. Ein halbes schon.“",
@@ -378,7 +382,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
       var info = document.createElement("div");
       var nm = document.createElement("div"); nm.className = "name"; nm.textContent = "Dr. " + name;
       var dx = document.createElement("div"); dx.className = "dx";
-      dx.textContent = "Fachrichtung: " + specialties[hash(name + new Date().toDateString()) % specialties.length];
+      dx.textContent = "Fachrichtung: " + (fixedSpecialties[name.toLowerCase()] || specialties[hash(name + new Date().toDateString()) % specialties.length]);
       info.appendChild(nm); info.appendChild(dx);
       li.appendChild(img); li.appendChild(info);
       list.appendChild(li);
