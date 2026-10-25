@@ -20,11 +20,12 @@
   --ink: #0f1b17;
   --muted: #34443e;
   --line: rgba(15, 27, 23, .16);
-  --glass: rgba(255, 255, 255, .66);
+  --glass: rgba(255, 255, 255, .44);
   --glass-edge: rgba(255, 255, 255, .8);
   --glass-strong: rgba(255, 255, 255, .86);
   --glass-hi: rgba(255, 255, 255, .6);
   --glass-shadow: 0 2px 10px rgba(0, 0, 0, .14);
+  --glass-bf: brightness(1.12);
   --sheen: rgba(255, 255, 255, .38);
   --sheen2: rgba(255, 255, 255, .14);
   --chip: rgba(255, 255, 255, .5);
@@ -37,30 +38,30 @@
   --monitor: rgba(4, 9, 7, .84);
   --monitor-line: rgba(255, 255, 255, .16);
   --text-shadow: 0 1px 0 rgba(255, 255, 255, .45);
-  --bg-dim: .62;
+  --bg-dim: .92;
   /* Text direkt auf dem Hintergrundbild (immer hell) */
   --on-bg: #f4f8f6;
-  --on-bg-muted: rgba(244, 248, 246, .8);
+  --on-bg-muted: rgba(250, 252, 251, .92);
   --splash: #ffff55;
   --splash-shadow: #3f3f15;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --ink: #eef5f2; --muted: #b6c4bf; --line: rgba(255, 255, 255, .13);
-    --glass: rgba(10, 16, 14, .56); --glass-strong: rgba(10, 16, 14, .88); --glass-edge: rgba(255, 255, 255, .2); --glass-hi: rgba(255, 255, 255, .22);
-    --glass-shadow: 0 2px 10px rgba(0, 0, 0, .32); --sheen: rgba(255, 255, 255, .13); --sheen2: rgba(255, 255, 255, .04);
+    --glass: rgba(10, 16, 14, .4); --glass-strong: rgba(10, 16, 14, .88); --glass-edge: rgba(255, 255, 255, .2); --glass-hi: rgba(255, 255, 255, .22);
+    --glass-shadow: 0 2px 10px rgba(0, 0, 0, .32); --glass-bf: brightness(.72); --sheen: rgba(255, 255, 255, .13); --sheen2: rgba(255, 255, 255, .04);
     --chip: rgba(255, 255, 255, .09); --green-soft: rgba(18, 161, 80, .3); --red-soft: rgba(215, 38, 61, .32);
     --grey-soft: rgba(255, 255, 255, .1); --note: #e8d98a; --monitor: rgba(2, 6, 4, .8);
-    --text-shadow: 0 1px 2px rgba(0, 0, 0, .45); --bg-dim: .5;
+    --text-shadow: 0 1px 2px rgba(0, 0, 0, .45); --bg-dim: .8;
   }
 }
 :root[data-theme="dark"] {
   --ink: #eef5f2; --muted: #b6c4bf; --line: rgba(255, 255, 255, .13);
-  --glass: rgba(10, 16, 14, .56); --glass-strong: rgba(10, 16, 14, .88); --glass-edge: rgba(255, 255, 255, .2); --glass-hi: rgba(255, 255, 255, .22);
-  --glass-shadow: 0 2px 10px rgba(0, 0, 0, .32); --sheen: rgba(255, 255, 255, .13); --sheen2: rgba(255, 255, 255, .04);
+  --glass: rgba(10, 16, 14, .4); --glass-strong: rgba(10, 16, 14, .88); --glass-edge: rgba(255, 255, 255, .2); --glass-hi: rgba(255, 255, 255, .22);
+  --glass-shadow: 0 2px 10px rgba(0, 0, 0, .32); --glass-bf: brightness(.72); --sheen: rgba(255, 255, 255, .13); --sheen2: rgba(255, 255, 255, .04);
   --chip: rgba(255, 255, 255, .09); --green-soft: rgba(18, 161, 80, .3); --red-soft: rgba(215, 38, 61, .32);
   --grey-soft: rgba(255, 255, 255, .1); --note: #e8d98a; --monitor: rgba(2, 6, 4, .8);
-  --text-shadow: 0 1px 2px rgba(0, 0, 0, .45); --bg-dim: .5;
+  --text-shadow: 0 1px 2px rgba(0, 0, 0, .45); --bg-dim: .8;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
@@ -77,14 +78,8 @@ body {
 /* Header */
 header { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-bottom: 24px; text-align: center; }
 .logo { display: block; width: min(100%, 440px); height: auto; }
-.brand { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
-.cross {
-  width: 30px; height: 30px; border-radius: 7px; background: var(--red);
-  display: grid; place-items: center; flex: none;
-}
-.cross svg { width: 17px; height: 17px; }
+.brand { display: block; text-align: center; }
 .brand h1 { margin: 0; line-height: 1.15; }
-.brand small { color: var(--muted); font-size: 15px; text-transform: uppercase; letter-spacing: .1em; }
 
 /* Status banner */
 .status {
@@ -231,7 +226,7 @@ header { display: flex; flex-direction: column; align-items: center; gap: 14px; 
 /* Titel in Minecraft Ten */
 .brand h1, .status h2, .card h3, .big, .monitor .hud .bpm, .tag-title { font-family: var(--font-title); font-weight: normal; }
 .card h3 { font-size: 14px; letter-spacing: .04em; }
-.brand h1 { font-size: 22px; letter-spacing: 0; }
+.brand, .brand h1 { font-size: 24px; letter-spacing: 0; }
 .status h2 { font-size: 20px; }
 .big { font-size: 30px; }
 .monitor .hud .bpm { font-size: 36px; }
@@ -244,7 +239,7 @@ header { display: flex; flex-direction: column; align-items: center; gap: 14px; 
 .ip { font: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
 .splash {
   margin: 8px 0 2px; max-width: 92%; font-size: 21px; line-height: 1.25;
-  color: var(--splash); text-shadow: 2px 2px 0 var(--splash-shadow);
+  color: var(--splash); text-shadow: 2px 2px 0 var(--splash-shadow), 0 0 12px rgba(0, 0, 0, .55);
   transform: rotate(-2deg); animation: splash 1.1s ease-in-out infinite alternate;
 }
 @keyframes splash { from { transform: rotate(-2deg) scale(1); } to { transform: rotate(-2deg) scale(1.06); } }
@@ -262,11 +257,11 @@ footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 3
 body::before {
   content: ""; position: fixed; inset: -40px; z-index: -2;
   background: #0b1210 url("img/bg.jpg") center / cover no-repeat;
-  filter: blur(14px) brightness(var(--bg-dim)) saturate(1.1);
+  filter: blur(7px) brightness(var(--bg-dim)) saturate(1.15);
 }
 body::after {
   content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, .28), rgba(0, 0, 0, .06) 38%, rgba(0, 0, 0, .34));
+  background: linear-gradient(to bottom, rgba(0, 0, 0, .34), rgba(0, 0, 0, 0) 34%, rgba(0, 0, 0, 0) 70%, rgba(0, 0, 0, .3));
 }
 .card, .status, .status.alive, .status.dead, .status.nosignal {
   background:
@@ -275,13 +270,13 @@ body::after {
     var(--glass);
   border: 1px solid var(--glass-edge);
   box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-hi), inset 0 0 14px rgba(255, 255, 255, .05);
-  -webkit-backdrop-filter: blur(22px) saturate(1.6);
-  backdrop-filter: blur(22px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5) var(--glass-bf);
+  backdrop-filter: blur(20px) saturate(1.5) var(--glass-bf);
 }
 .status.alive { --tint: var(--green-soft); }
 .status.dead { --tint: var(--red-soft); }
 .status.nosignal { --tint: var(--grey-soft); }
-.refract .card, .refract .status { backdrop-filter: url(#glass-refract) blur(20px) saturate(1.6); }
+.refract .card, .refract .status { backdrop-filter: url(#glass-refract) blur(18px) saturate(1.5) var(--glass-bf); }
 .monitor {
   border: 1px solid var(--glass-edge);
   box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, .18);
@@ -289,9 +284,9 @@ body::after {
 }
 
 /* Text direkt auf dem Bild */
-.brand h1, .brand small, .serverline, .hint, footer, .upd-title { text-shadow: 0 1px 3px rgba(0, 0, 0, .55); }
-.brand h1 { color: var(--on-bg); }
-.brand small, .serverline { color: var(--on-bg-muted); }
+.brand, .brand h1, .serverline, .hint, footer, .upd-title, .side-head { text-shadow: 0 1px 2px rgba(0, 0, 0, .75), 0 2px 10px rgba(0, 0, 0, .55); }
+.brand, .brand h1 { color: var(--on-bg); margin: 0; font-family: var(--font-title); font-weight: normal; line-height: 1.15; }
+.serverline { color: var(--on-bg); }
 .serverline a, .serverline .ip { color: var(--on-bg); }
 .hint { color: var(--on-bg-muted); }
 .hint code { background: rgba(255, 255, 255, .14); border-color: rgba(255, 255, 255, .22); color: var(--on-bg); }
@@ -371,6 +366,9 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
   .layout.open .scrim { display: block; position: fixed; inset: 0; z-index: 55; background: rgba(0, 0, 0, .5); }
 }
 @media (prefers-reduced-motion: reduce) { .side { transition: none !important; } }
+/* Abstände zwischen den Karten im Hauptbereich */
+.main > .status, .main > .monitor, .main > .card, .main > .ranks { margin-bottom: 18px; }
+.main > .ranks { gap: 18px; }
 </style>
 </head>
 <body>
@@ -379,13 +377,7 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
 
   <header>
     <img class="logo" src="img/logo.webp" alt="Anti Medi Medi Club" width="2000" height="635">
-    <div class="brand">
-      <div class="cross" aria-hidden="true">
-        <svg viewBox="0 0 26 26"><path d="M9.5 2h7v7.5H24v7h-7.5V24h-7v-7.5H2v-7h7.5z" fill="#fff"/></svg>
-      </div>
-      <h1>Zentrale Notaufnahme</h1>
-      <small>Uniklinik</small>
-    </div>
+    <h1 class="brand">Zentrale Notaufnahme Uniklinik</h1>
     <div class="serverline">
       <span id="srvVer">Paper 26.3</span><span class="sep">·</span>
       <span>IP: <button class="ip" id="ip" type="button" title="Klicken zum Kopieren">play.antimedimedis.de</button></span><span class="sep">·</span>
