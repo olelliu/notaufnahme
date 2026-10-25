@@ -186,6 +186,38 @@ button:hover, .btn:hover { border-color: var(--muted); }
 .hint { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
 .hint code { font-family: "IBM Plex Mono", monospace; font-size: 12px; background: var(--bg); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--line); }
 
+/* Karriereverlauf */
+.career h3 .count { color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
+.chead, .crow { display: grid; grid-template-columns: 26px 1.5fr 1.15fr 1fr 1fr 1.25fr; gap: 10px; align-items: center; }
+.chead { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; padding: 0 0 6px; border-bottom: 1px solid var(--line); }
+.crow { padding: 9px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.chead + .crow { border-top: 0; }
+.crow .rank { color: var(--muted); font: 600 13px "IBM Plex Mono", monospace; }
+.crow .cname { display: flex; align-items: center; gap: 8px; font-weight: 500; min-width: 0; }
+.crow .cname img { width: 24px; height: 24px; border-radius: 4px; image-rendering: pixelated; background: var(--line); flex: none; }
+.crow .cname span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.crow .cvals { display: contents; }
+.crow .cval { font-variant-numeric: tabular-nums; }
+.crow .cval small { display: none; }
+@media (max-width: 640px) {
+  .chead { display: none; }
+  .crow { grid-template-columns: 24px 1fr; row-gap: 6px; }
+  .crow .cvals { display: grid; grid-column: 2; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
+  .crow .cval small { display: block; color: var(--muted); font-size: 11px; }
+}
+.ranks { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+@media (max-width: 560px) { .ranks { grid-template-columns: 1fr; } }
+.ranks .card h3 { display: flex; align-items: center; gap: 8px; }
+.ranks .card h3 .ico { font-size: 16px; }
+.top3 { list-style: none; margin: 0; padding: 0; }
+.top3 li { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); }
+.top3 li:first-child { border-top: 0; }
+.top3 .medal { width: 22px; text-align: center; flex: none; }
+.top3 img { width: 24px; height: 24px; border-radius: 4px; image-rendering: pixelated; background: var(--line); flex: none; }
+.top3 .nm { flex: 1; min-width: 0; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.top3 .v { font: 600 14px "IBM Plex Mono", monospace; white-space: nowrap; }
+.top3 .u { color: var(--muted); font-weight: 400; font-size: 12px; }
+
 footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 26px; }
 .quote { font-style: italic; }
 </style>
@@ -251,6 +283,15 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
     </div>
   </div>
   <p class="hint" style="margin:-4px 0 14px">Eintragen im Spiel: <code>/todo add …</code> · <code>/todo erledigt 3</code> · <code>/notiz add …</code> · <code>/ort add Basis</code> <span id="boardUpdated"></span></p>
+
+  <div class="card career" style="margin-bottom:14px">
+    <h3>Karriereverlauf · Dienstälteste Ärzte <span class="count" id="careerCount"></span></h3>
+    <div class="chead"><span></span><span>Arzt</span><span>Dienstzeit absolviert</span><span>Verlorene Patienten</span><span>Gelaufene km</span><span>Erfolgreiche Parasitenabwehr</span></div>
+    <div id="career"></div>
+    <p class="empty" id="noCareer">Noch keine Dienstakten vorhanden.</p>
+  </div>
+
+  <div class="ranks" id="ranks"></div>
 
   <div class="card" style="margin-bottom:14px">
     <h3>Zum Dienst melden</h3>
@@ -566,6 +607,107 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
   loadBoard();
   setInterval(loadBoard, 120000);
   window.addEventListener("hashchange", loadBoard);
+
+  // --- Karriereverlauf --------------------------------------------------------
+  // stats.json schreibt das Plugin "SchwarzesBrett" (alle 15 Min.) aus den Spielerstatistiken.
+  var STATS_API = "https://api.github.com/repos/olelliu/notaufnahme/contents/stats.json";
+  var STATS_RAW = "https://raw.githubusercontent.com/olelliu/notaufnahme/main/stats.json";
+  var nf = new Intl.NumberFormat("de-DE");
+  var nf1 = new Intl.NumberFormat("de-DE", { maximumFractionDigits: 1, minimumFractionDigits: 1 });
+
+  function dur(ticks) {
+    var min = Math.floor(ticks / 20 / 60);
+    var h = Math.floor(min / 60), m = min % 60;
+    return h > 0 ? h + " h " + (m < 10 ? "0" : "") + m + " min" : m + " min";
+  }
+  function head(uuid, name) {
+    var img = document.createElement("img");
+    img.alt = ""; img.loading = "lazy";
+    img.src = "https://mc-heads.net/avatar/" + encodeURIComponent(uuid || name) + "/24";
+    return img;
+  }
+  function cval(label, text) {
+    var d = node("div", "cval");
+    d.appendChild(node("small", null, label));
+    d.appendChild(document.createTextNode(text));
+    return d;
+  }
+
+  var RANKINGS = [
+    { key: "deaths",      icon: "⚰️", title: "Sterbestation",    sub: "meiste Tode",         fmt: function (v) { return nf.format(v); },       unit: "Tode" },
+    { key: "km",          icon: "🏃", title: "Stationsspringer", sub: "gelaufene Kilometer", fmt: function (v) { return nf1.format(v); },      unit: "km" },
+    { key: "diamonds",    icon: "🩻", title: "Radiologen",       sub: "gefundene Diamanten", fmt: function (v) { return nf.format(v); },       unit: "💎" },
+    { key: "blocksMined", icon: "⛏️", title: "Chirurgen",        sub: "abgebaute Blöcke",    fmt: function (v) { return nf.format(v); },       unit: "Blöcke" }
+  ];
+  var MEDALS = ["🥇", "🥈", "🥉"];
+
+  function renderStats(d) {
+    var players = ((d && d.players) || []).slice().sort(function (a, b) { return b.playTicks - a.playTicks; });
+    el("careerCount").textContent = players.length ? "(" + players.length + " Ärzte)" : "";
+    var box = el("career"); box.innerHTML = "";
+    players.forEach(function (p, i) {
+      var row = node("div", "crow");
+      row.appendChild(node("span", "rank", String(i + 1)));
+      var nm = node("div", "cname");
+      nm.appendChild(head(p.uuid, p.name));
+      nm.appendChild(node("span", null, "Dr. " + p.name));
+      row.appendChild(nm);
+      var vals = node("div", "cvals");
+      vals.appendChild(cval("Dienstzeit absolviert", dur(p.playTicks)));
+      vals.appendChild(cval("Verlorene Patienten", nf.format(p.deaths)));
+      vals.appendChild(cval("Gelaufene km", nf1.format(p.km) + " km"));
+      vals.appendChild(cval("Erfolgreiche Parasitenabwehr", nf.format(p.mobKills)));
+      row.appendChild(vals);
+      box.appendChild(row);
+    });
+    el("noCareer").style.display = players.length ? "none" : "block";
+
+    var ranks = el("ranks"); ranks.innerHTML = "";
+    if (!players.length) return;
+    RANKINGS.forEach(function (r) {
+      var top = players.filter(function (p) { return p[r.key] > 0; })
+        .sort(function (a, b) { return b[r.key] - a[r.key]; }).slice(0, 3);
+      var card = node("div", "card");
+      var h = node("h3");
+      h.appendChild(node("span", "ico", r.icon));
+      h.appendChild(document.createTextNode(r.title));
+      card.appendChild(h);
+      card.appendChild(node("div", "sub", r.sub));
+      var ul = node("ul", "top3");
+      top.forEach(function (p, i) {
+        var li = node("li");
+        li.appendChild(node("span", "medal", MEDALS[i]));
+        li.appendChild(head(p.uuid, p.name));
+        li.appendChild(node("span", "nm", "Dr. " + p.name));
+        var v = node("span", "v", r.fmt(p[r.key]) + " ");
+        v.appendChild(node("span", "u", r.unit));
+        li.appendChild(v);
+        ul.appendChild(li);
+      });
+      card.appendChild(ul);
+      if (!top.length) card.appendChild(node("p", "empty", "Noch keine Einträge."));
+      ranks.appendChild(card);
+    });
+  }
+
+  function loadStats() {
+    if (location.hash === "#demo") {
+      return renderStats({ players: [
+        { uuid: "31bbe822-efc3-46cb-9552-fb462abcbf09", name: "Pischinger", playTicks: 8481600, deaths: 81, km: 399.4, mobKills: 4736, diamonds: 317, blocksMined: 100284 },
+        { uuid: "24336e1b-3126-446d-b6d1-05e47d7a3dfe", name: "MinzMeister", playTicks: 2873469, deaths: 25, km: 104.2, mobKills: 161, diamonds: 50, blocksMined: 18459 },
+        { uuid: "b17ba046-a628-4b26-be81-b5a132f0b26c", name: "Euthyphron", playTicks: 2721600, deaths: 32, km: 132.4, mobKills: 1724, diamonds: 0, blocksMined: 47597 },
+        { uuid: "91a10650-28e2-455b-9380-c542f6a5ae38", name: "Mad_Max_1999", playTicks: 1807200, deaths: 14, km: 87.2, mobKills: 103, diamonds: 40, blocksMined: 13123 },
+        { uuid: "f1a435bc-4754-4f01-86ca-64a1f450c380", name: "Levsche", playTicks: 345600, deaths: 32, km: 12.2, mobKills: 29, diamonds: 0, blocksMined: 399 } ] });
+    }
+    fetch(STATS_API, { headers: { Accept: "application/vnd.github.raw+json" }, cache: "no-store" })
+      .then(function (r) { if (r.status === 404) return {}; if (!r.ok) throw new Error(r.status); return r.json(); })
+      .catch(function () { return fetch(STATS_RAW).then(function (r) { return r.ok ? r.json() : {}; }); })
+      .then(renderStats)
+      .catch(function () { renderStats({}); });
+  }
+  loadStats();
+  setInterval(loadStats, 300000);
+  window.addEventListener("hashchange", loadStats);
 
   // --- Adresse kopieren ---------------------------------------------------
   el("copy").addEventListener("click", function () {
