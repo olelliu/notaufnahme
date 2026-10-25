@@ -27,6 +27,8 @@
   --red-soft: #fbe6e9;
   --grey-soft: #e6eae9;
   --note: #fff3b0;
+  --splash: #d19a00;
+  --splash-shadow: rgba(80, 60, 0, .25);
   --monitor: #0b1512;
   --monitor-line: #1d2b27;
   --shadow: 0 1px 2px rgba(20,33,29,.06), 0 8px 24px rgba(20,33,29,.06);
@@ -35,14 +37,14 @@
   :root:not([data-theme="light"]) {
     --bg: #0c1311; --card: #141e1b; --ink: #e6efec; --muted: #8fa19b; --line: #24332e;
     --green-soft: #0f2a1b; --red-soft: #2e1217; --grey-soft: #1b2421; --monitor: #050a08; --monitor-line: #14211d;
-    --note: #e8d98a;
+    --note: #e8d98a; --splash: #ffff55; --splash-shadow: #3f3f15;
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
   }
 }
 :root[data-theme="dark"] {
   --bg: #0c1311; --card: #141e1b; --ink: #e6efec; --muted: #8fa19b; --line: #24332e;
   --green-soft: #0f2a1b; --red-soft: #2e1217; --grey-soft: #1b2421; --monitor: #050a08; --monitor-line: #14211d;
-  --note: #e8d98a;
+  --note: #e8d98a; --splash: #ffff55; --splash-shadow: #3f3f15;
   --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
 }
 * { box-sizing: border-box; }
@@ -62,12 +64,12 @@ header { display: flex; flex-direction: column; align-items: center; gap: 14px; 
 .logo { display: block; width: min(100%, 440px); height: auto; }
 .brand { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
 .cross {
-  width: 34px; height: 34px; border-radius: 8px; background: var(--red);
+  width: 30px; height: 30px; border-radius: 7px; background: var(--red);
   display: grid; place-items: center; flex: none;
 }
-.cross svg { width: 20px; height: 20px; }
+.cross svg { width: 17px; height: 17px; }
 .brand h1 { margin: 0; line-height: 1.15; }
-.brand small { color: var(--muted); font-size: 16px; text-transform: uppercase; letter-spacing: .1em; }
+.brand small { color: var(--muted); font-size: 15px; text-transform: uppercase; letter-spacing: .1em; }
 
 /* Status banner */
 .status {
@@ -140,26 +142,6 @@ header { display: flex; flex-direction: column; align-items: center; gap: 14px; 
 .doctors .name { font-weight: 500; }
 .doctors .dx { color: var(--muted); font-size: 13px; }
 .empty { color: var(--muted); font-size: 14px; margin: 0; }
-
-/* Adresse */
-.addr { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-.addr code {
-  font: 17px var(--font-text); background: var(--bg); padding: 8px 12px;
-  border-radius: 8px; border: 1px solid var(--line); word-break: break-all;
-}
-button, .btn {
-  font: 14px var(--font-text); cursor: pointer;
-  border: 1px solid var(--line); background: var(--card); color: var(--ink);
-  padding: 8px 14px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
-}
-button:hover, .btn:hover { border-color: var(--muted); }
-.btn.primary { background: var(--red); border-color: var(--red); color: #fff; }
-.btn.primary:hover { filter: brightness(1.08); }
-
-.links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-.meta { font: 13px var(--font-text); color: var(--muted); }
-.meta div { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
-.meta b { color: var(--ink); font-weight: 600; text-align: right; }
 
 /* Schwarzes Brett */
 .board { margin-bottom: 14px; }
@@ -234,13 +216,32 @@ button:hover, .btn:hover { border-color: var(--muted); }
 /* Titel in Minecraft Ten */
 .brand h1, .status h2, .card h3, .big, .monitor .hud .bpm, .tag-title { font-family: var(--font-title); font-weight: normal; }
 .card h3 { font-size: 14px; letter-spacing: .04em; }
-.brand h1 { font-size: 26px; letter-spacing: 0; }
+.brand h1 { font-size: 22px; letter-spacing: 0; }
 .status h2 { font-size: 20px; }
 .big { font-size: 30px; }
 .monitor .hud .bpm { font-size: 36px; }
 
-footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 26px; }
-.quote { font-style: italic; }
+/* Serverzeile + Splash */
+.serverline { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 4px 10px; font-size: 17px; color: var(--muted); margin-top: -6px; }
+.serverline .sep { opacity: .5; }
+.serverline a, .serverline .ip { color: var(--ink); text-decoration: underline dotted; text-underline-offset: 4px; }
+.serverline a:hover, .serverline .ip:hover { color: var(--red); }
+.ip { font: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+.splash {
+  margin: 8px 0 2px; max-width: 92%; font-size: 21px; line-height: 1.25;
+  color: var(--splash); text-shadow: 2px 2px 0 var(--splash-shadow);
+  transform: rotate(-2deg); animation: splash 1.1s ease-in-out infinite alternate;
+}
+@keyframes splash { from { transform: rotate(-2deg) scale(1); } to { transform: rotate(-2deg) scale(1.06); } }
+@media (prefers-reduced-motion: reduce) { .splash { animation: none; } }
+
+/* Fußzeile */
+footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 30px; padding-top: 18px; border-top: 1px solid var(--line); }
+.upd-title { margin: 0 0 8px; font-family: var(--font-title); font-size: 13px; letter-spacing: .06em; text-transform: uppercase; }
+.upd { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 24px; }
+.upd li b { color: var(--ink); font-weight: normal; }
+.upd li b::before { content: ": "; color: var(--muted); }
+.credit { margin: 12px 0 0; font-size: 13px; opacity: .8; }
 </style>
 </head>
 <body>
@@ -255,6 +256,12 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
       <h1>Zentrale Notaufnahme</h1>
       <small>Uniklinik</small>
     </div>
+    <div class="serverline">
+      <span id="srvVer">Paper 26.3</span><span class="sep">·</span>
+      <span>IP: <button class="ip" id="ip" type="button" title="Klicken zum Kopieren">play.antimedimedis.de</button></span><span class="sep">·</span>
+      <a href="http://map.antimedimedis.de:10063" target="_blank" rel="noopener">Online Map</a>
+    </div>
+    <p class="splash" id="quote"></p>
   </header>
 
   <div class="status" id="status">
@@ -304,7 +311,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
       <p class="empty" id="noPlaces">Noch keine Orte gespeichert.</p>
     </div>
   </div>
-  <p class="hint" style="margin:-4px 0 14px">Eintragen im Spiel: <code>/todo add …</code> · <code>/todo erledigt 3</code> · <code>/notiz add …</code> · <code>/ort add Basis</code> <span id="boardUpdated"></span></p>
+  <p class="hint" style="margin:-4px 0 14px">Eintragen im Spiel: <code>/todo add …</code> · <code>/todo erledigt 3</code> · <code>/notiz add …</code> · <code>/ort add Basis</code></p>
 
   <div class="card career" style="margin-bottom:14px">
     <h3>Karriereverlauf · Dienstälteste Ärzte <span class="count" id="careerCount"></span></h3>
@@ -315,30 +322,14 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
 
   <div class="ranks" id="ranks"></div>
 
-  <div class="card" style="margin-bottom:14px">
-    <h3>Zum Dienst melden</h3>
-    <div class="addr">
-      <code id="addr">play.antimedimedis.de</code>
-      <button id="copy" type="button">Adresse kopieren</button>
-    </div>
-    <div class="links">
-      <a class="btn primary" href="http://map.antimedimedis.de:10063" target="_blank" rel="noopener">🩻 Radiologie (Karte)</a>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>Klinikdaten</h3>
-    <div class="meta">
-      <div><span>Behandlungsmethode</span><b id="ver">–</b></div>
-      <div><span>Leitspruch</span><b id="motd">–</b></div>
-      <div><span>Letzte Visite</span><b id="checked">–</b></div>
-      <div><span>Approbation</span><b>nur mit Whitelist</b></div>
-    </div>
-  </div>
-
   <footer>
-    <p class="quote" id="quote"></p>
-    <p>Aktualisiert sich jede Minute · Status via mcstatus.io</p>
+    <p class="upd-title">Zuletzt aktualisiert</p>
+    <ul class="upd">
+      <li>Player Stats<b id="updStats">–</b></li>
+      <li>Server Stats<b id="updServer">–</b></li>
+      <li>Schwarzes Brett<b id="updBoard">–</b></li>
+    </ul>
+    <p class="credit">Serverstatus via mcstatus.io</p>
   </footer>
 </div>
 
@@ -368,7 +359,13 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
     "„Totem der Unsterblichkeit: nur auf Rezept.“",
     "„Wer heilt, hat recht. Wer respawnt, auch.“"
   ];
-  document.getElementById("quote").textContent = quotes[Math.floor(Math.random() * quotes.length)];
+  document.getElementById("quote").textContent = quotes[Math.floor(Math.random() * quotes.length)].replace(/[„“]/g, "");
+
+  function stamp(v) {
+    var d = v instanceof Date ? v : new Date(v);
+    if (isNaN(d.getTime())) return "–";
+    return d.toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) + " Uhr";
+  }
 
   function hash(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); }
 
@@ -520,9 +517,8 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
     el("noDoctors").style.display = state === "alive" ? "none" : "block";
     el("noDoctors").textContent = state === "dead" ? "Station verwaist. Nur der Monitor piept." : "Klinik außer Betrieb.";
 
-    el("ver").textContent = online && d.version ? (d.version.name_clean || d.version.name || "–") : "–";
-    el("motd").textContent = online && d.motd ? (d.motd.clean || "–").trim() : "–";
-    el("checked").textContent = new Date().toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    if (online && d.version) el("srvVer").textContent = d.version.name_clean || d.version.name || "Paper";
+    el("updServer").textContent = stamp(d && d.retrieved_at ? new Date(d.retrieved_at) : new Date());
   }
 
   function load() {
@@ -599,7 +595,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
       li.appendChild(left); li.appendChild(a); pl.appendChild(li);
     });
     el("noPlaces").style.display = (b.places || []).length ? "none" : "block";
-    el("boardUpdated").textContent = b.updated ? "· zuletzt geändert " + ago(b.updated) : "";
+    el("updBoard").textContent = b.updated ? stamp(b.updated) : "–";
   }
 
   function loadBoard() {
@@ -664,6 +660,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
   var MEDALS = ["🥇", "🥈", "🥉"];
 
   function renderStats(d) {
+    el("updStats").textContent = d && d.updated ? stamp(d.updated) : "–";
     var players = ((d && d.players) || []).slice().sort(function (a, b) { return b.playTicks - a.playTicks; });
     el("careerCount").textContent = players.length ? "(" + players.length + " Ärzte)" : "";
     var box = el("career"); box.innerHTML = "";
@@ -714,7 +711,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
 
   function loadStats() {
     if (location.hash === "#demo") {
-      return renderStats({ players: [
+      return renderStats({ updated: new Date(Date.now() - 1800e3).toISOString(), players: [
         { uuid: "31bbe822-efc3-46cb-9552-fb462abcbf09", name: "Pischinger", playTicks: 8481600, deaths: 81, km: 399.4, mobKills: 4736, diamonds: 317, blocksMined: 100284 },
         { uuid: "24336e1b-3126-446d-b6d1-05e47d7a3dfe", name: "MinzMeister", playTicks: 2873469, deaths: 25, km: 104.2, mobKills: 161, diamonds: 50, blocksMined: 18459 },
         { uuid: "b17ba046-a628-4b26-be81-b5a132f0b26c", name: "Euthyphron", playTicks: 2721600, deaths: 32, km: 132.4, mobKills: 1724, diamonds: 0, blocksMined: 47597 },
@@ -731,10 +728,10 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
   setInterval(loadStats, 300000);
   window.addEventListener("hashchange", loadStats);
 
-  // --- Adresse kopieren ---------------------------------------------------
-  el("copy").addEventListener("click", function () {
-    var txt = el("addr").textContent, btn = this;
-    var done = function () { btn.textContent = "Kopiert ✓"; setTimeout(function () { btn.textContent = "Adresse kopieren"; }, 1800); };
+  // --- IP kopieren ------------------------------------------------------------
+  el("ip").addEventListener("click", function () {
+    var btn = this, txt = "play.antimedimedis.de";
+    var done = function () { btn.textContent = "Kopiert ✓"; setTimeout(function () { btn.textContent = txt; }, 1500); };
     if (navigator.clipboard) navigator.clipboard.writeText(txt).then(done, done); else done();
   });
 })();
