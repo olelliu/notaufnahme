@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-25T22:11:57.068533149Z",
+  "updated": "2026-10-25T22:12:30.216294052Z",
   "todos": [
     {
       "id": 1,
@@ -15,6 +15,12 @@
       "text": "Chunks löschen",
       "author": "CONSOLE",
       "created": "2026-10-25T22:11:57.068422033Z"
+    },
+    {
+      "id": 2,
+      "text": "Warden Daddy Besuch abstatten",
+      "author": "CONSOLE",
+      "created": "2026-10-25T22:12:30.216260912Z"
     }
   ],
   "places": []
