@@ -256,7 +256,7 @@ footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 3
 .wrap { position: relative; z-index: 1; }
 body::before {
   content: ""; position: fixed; inset: -12px; z-index: -2;
-  background: #0b1210 url("img/bg.jpg") center / cover no-repeat;
+  background: #0b1210 url("img/bg.jpg") 50% calc(var(--bgp, 0) * 100%) / max(100vw, 140vh) auto no-repeat;
   filter: blur(2px) brightness(var(--bg-dim)) saturate(1.15);
 }
 body::after {
@@ -365,7 +365,7 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
   .layout.open .side-open { display: none; }
   .layout.open .scrim { display: block; position: fixed; inset: 0; z-index: 55; background: rgba(0, 0, 0, .5); }
 }
-@media (prefers-reduced-motion: reduce) { .side { transition: none !important; } }
+@media (prefers-reduced-motion: reduce) { .side { transition: none !important; } body::before { background-position: 50% 35%; } }
 /* Abstände zwischen den Karten im Hauptbereich */
 .main > .status, .main > .monitor, .main > .card, .main > .ranks { margin-bottom: 18px; }
 .main > .ranks { gap: 18px; }
@@ -881,6 +881,19 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
   el("scrim").addEventListener("click", function () { setSide(false); });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && mq.matches && sideShown()) setSide(false); });
   mq.addEventListener("change", function () { layout.classList.remove("open"); el("sideClose").textContent = mq.matches ? "Schließen" : "Ausblenden"; });
+
+  // --- Hintergrund wandert beim Scrollen durch das lange Bild --------------------
+  var bgQueued = false;
+  function bgUpdate() {
+    bgQueued = false;
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var pr = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    document.documentElement.style.setProperty("--bgp", pr.toFixed(4));
+  }
+  window.addEventListener("scroll", function () { if (!bgQueued) { bgQueued = true; requestAnimationFrame(bgUpdate); } }, { passive: true });
+  window.addEventListener("resize", bgUpdate);
+  window.addEventListener("load", bgUpdate);
+  bgUpdate();
 
   // --- IP kopieren ------------------------------------------------------------
   el("ip").addEventListener("click", function () {
