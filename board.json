@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-25T22:12:30.216294052Z",
+  "updated": "2026-10-25T22:13:58.766387771Z",
   "todos": [
     {
       "id": 1,
@@ -21,6 +21,12 @@
       "text": "Warden Daddy Besuch abstatten",
       "author": "CONSOLE",
       "created": "2026-10-25T22:12:30.216260912Z"
+    },
+    {
+      "id": 3,
+      "text": "Doofenschmirz' Basis gewaltvoll vernichten",
+      "author": "CONSOLE",
+      "created": "2026-10-25T22:13:58.766347110Z"
     }
   ],
   "places": []
