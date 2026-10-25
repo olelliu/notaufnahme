@@ -16,41 +16,55 @@
   --font-title: "MCTen", "MC", system-ui, sans-serif;
 }
 :root {
-  --bg: #eef3f1;
-  --card: #ffffff;
-  --ink: #14211d;
-  --muted: #5b6b66;
-  --line: #d6e0dc;
+  /* Hell: milchiges Glas */
+  --ink: #0f1b17;
+  --muted: #34443e;
+  --line: rgba(15, 27, 23, .16);
+  --glass: rgba(255, 255, 255, .66);
+  --glass-edge: rgba(255, 255, 255, .8);
+  --glass-hi: rgba(255, 255, 255, .6);
+  --glass-shadow: 0 2px 10px rgba(0, 0, 0, .14);
+  --sheen: rgba(255, 255, 255, .38);
+  --sheen2: rgba(255, 255, 255, .14);
+  --chip: rgba(255, 255, 255, .5);
   --red: #d7263d;
   --green: #12a150;
-  --green-soft: #e3f5ea;
-  --red-soft: #fbe6e9;
-  --grey-soft: #e6eae9;
+  --green-soft: rgba(18, 161, 80, .2);
+  --red-soft: rgba(215, 38, 61, .2);
+  --grey-soft: rgba(110, 120, 118, .22);
   --note: #fff3b0;
-  --splash: #d19a00;
-  --splash-shadow: rgba(80, 60, 0, .25);
-  --monitor: #0b1512;
-  --monitor-line: #1d2b27;
-  --shadow: 0 1px 2px rgba(20,33,29,.06), 0 8px 24px rgba(20,33,29,.06);
+  --monitor: rgba(4, 9, 7, .84);
+  --monitor-line: rgba(255, 255, 255, .16);
+  --text-shadow: 0 1px 0 rgba(255, 255, 255, .45);
+  --bg-dim: .62;
+  /* Text direkt auf dem Hintergrundbild (immer hell) */
+  --on-bg: #f4f8f6;
+  --on-bg-muted: rgba(244, 248, 246, .8);
+  --splash: #ffff55;
+  --splash-shadow: #3f3f15;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0c1311; --card: #141e1b; --ink: #e6efec; --muted: #8fa19b; --line: #24332e;
-    --green-soft: #0f2a1b; --red-soft: #2e1217; --grey-soft: #1b2421; --monitor: #050a08; --monitor-line: #14211d;
-    --note: #e8d98a; --splash: #ffff55; --splash-shadow: #3f3f15;
-    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+    --ink: #eef5f2; --muted: #b6c4bf; --line: rgba(255, 255, 255, .13);
+    --glass: rgba(10, 16, 14, .56); --glass-edge: rgba(255, 255, 255, .2); --glass-hi: rgba(255, 255, 255, .22);
+    --glass-shadow: 0 2px 10px rgba(0, 0, 0, .32); --sheen: rgba(255, 255, 255, .13); --sheen2: rgba(255, 255, 255, .04);
+    --chip: rgba(255, 255, 255, .09); --green-soft: rgba(18, 161, 80, .3); --red-soft: rgba(215, 38, 61, .32);
+    --grey-soft: rgba(255, 255, 255, .1); --note: #e8d98a; --monitor: rgba(2, 6, 4, .8);
+    --text-shadow: 0 1px 2px rgba(0, 0, 0, .45); --bg-dim: .5;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0c1311; --card: #141e1b; --ink: #e6efec; --muted: #8fa19b; --line: #24332e;
-  --green-soft: #0f2a1b; --red-soft: #2e1217; --grey-soft: #1b2421; --monitor: #050a08; --monitor-line: #14211d;
-  --note: #e8d98a; --splash: #ffff55; --splash-shadow: #3f3f15;
-  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+  --ink: #eef5f2; --muted: #b6c4bf; --line: rgba(255, 255, 255, .13);
+  --glass: rgba(10, 16, 14, .56); --glass-edge: rgba(255, 255, 255, .2); --glass-hi: rgba(255, 255, 255, .22);
+  --glass-shadow: 0 2px 10px rgba(0, 0, 0, .32); --sheen: rgba(255, 255, 255, .13); --sheen2: rgba(255, 255, 255, .04);
+  --chip: rgba(255, 255, 255, .09); --green-soft: rgba(18, 161, 80, .3); --red-soft: rgba(215, 38, 61, .32);
+  --grey-soft: rgba(255, 255, 255, .1); --note: #e8d98a; --monitor: rgba(2, 6, 4, .8);
+  --text-shadow: 0 1px 2px rgba(0, 0, 0, .45); --bg-dim: .5;
 }
 * { box-sizing: border-box; }
 html, body { margin: 0; }
 body {
-  background: var(--bg);
+  background: #0b1210;
   color: var(--ink);
   font: 18px/1.45 var(--font-text);
   font-synthesis: none;
@@ -75,7 +89,7 @@ header { display: flex; flex-direction: column; align-items: center; gap: 14px; 
 .status {
   display: flex; align-items: center; gap: 14px;
   padding: 16px 18px; border-radius: 14px; margin-bottom: 14px;
-  background: var(--card); border: 1px solid var(--line); box-shadow: var(--shadow);
+  background: var(--glass); border: 1px solid var(--line); box-shadow: var(--glass-shadow);
 }
 .status .lamp { width: 14px; height: 14px; border-radius: 50%; background: var(--muted); flex: none; }
 .status.alive { background: var(--green-soft); border-color: transparent; }
@@ -119,8 +133,8 @@ header { display: flex; flex-direction: column; align-items: center; gap: 14px; 
 @media (max-width: 680px) { .grid { grid-template-columns: minmax(0, 1fr); } }
 .card {
   min-width: 0; overflow-wrap: anywhere;
-  background: var(--card); border: 1px solid var(--line); border-radius: 14px;
-  padding: 16px 18px; box-shadow: var(--shadow);
+  background: var(--glass); border: 1px solid var(--line); border-radius: 14px;
+  padding: 16px 18px; box-shadow: var(--glass-shadow);
 }
 .card h3 { margin: 0 0 10px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; font-weight: 500; }
 
@@ -174,9 +188,9 @@ header { display: flex; flex-direction: column; align-items: center; gap: 14px; 
 .places .coords { font: 13px var(--font-text); color: var(--muted); }
 .places a { color: var(--red); font-size: 13px; text-decoration: none; white-space: nowrap; }
 .places a:hover { text-decoration: underline; }
-.dim { font-size: 11px; padding: 1px 6px; border-radius: 99px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); margin-left: 6px; }
+.dim { font-size: 11px; padding: 1px 6px; border-radius: 99px; background: var(--chip); border: 1px solid var(--line); color: var(--muted); margin-left: 6px; }
 .hint { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
-.hint code { font-family: var(--font-text); font-size: 12px; background: var(--bg); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--line); }
+.hint code { font-family: var(--font-text); font-size: 12px; background: var(--chip); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--line); }
 
 /* Karriereverlauf */
 .career h3 .count { color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
@@ -242,9 +256,76 @@ footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 3
 .upd li b { color: var(--ink); font-weight: normal; }
 .upd li b::before { content: ": "; color: var(--muted); }
 .credit { margin: 12px 0 0; font-size: 13px; opacity: .8; }
+/* ===== Glas-Design ===== */
+.wrap { position: relative; z-index: 1; }
+body::before {
+  content: ""; position: fixed; inset: -40px; z-index: -2;
+  background: #0b1210 url("img/bg.jpg") center / cover no-repeat;
+  filter: blur(14px) brightness(var(--bg-dim)) saturate(1.1);
+}
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, .28), rgba(0, 0, 0, .06) 38%, rgba(0, 0, 0, .34));
+}
+.card, .status, .status.alive, .status.dead, .status.nosignal {
+  background:
+    linear-gradient(135deg, var(--sheen) 0%, transparent 36%, transparent 68%, var(--sheen2) 100%),
+    linear-gradient(var(--tint, transparent), var(--tint, transparent)),
+    var(--glass);
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-hi), inset 0 0 14px rgba(255, 255, 255, .05);
+  -webkit-backdrop-filter: blur(22px) saturate(1.6);
+  backdrop-filter: blur(22px) saturate(1.6);
+}
+.status.alive { --tint: var(--green-soft); }
+.status.dead { --tint: var(--red-soft); }
+.status.nosignal { --tint: var(--grey-soft); }
+.refract .card, .refract .status { backdrop-filter: url(#glass-refract) blur(20px) saturate(1.6); }
+.monitor {
+  border: 1px solid var(--glass-edge);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgba(255, 255, 255, .18);
+  -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+}
+
+/* Text direkt auf dem Bild */
+.brand h1, .brand small, .serverline, .hint, footer, .upd-title { text-shadow: 0 1px 3px rgba(0, 0, 0, .55); }
+.brand h1 { color: var(--on-bg); }
+.brand small, .serverline { color: var(--on-bg-muted); }
+.serverline a, .serverline .ip { color: var(--on-bg); }
+.hint { color: var(--on-bg-muted); }
+.hint code { background: rgba(255, 255, 255, .14); border-color: rgba(255, 255, 255, .22); color: var(--on-bg); }
+footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); }
+.upd li b { color: var(--on-bg); }
+.upd li b::before { color: var(--on-bg-muted); }
+.upd-title { color: var(--on-bg); }
+.credit { color: var(--on-bg-muted); }
+
+/* Überschriften: klarere Hierarchie */
+.card h3 { font-size: 19px; letter-spacing: .03em; color: var(--ink); margin: 0 0 12px; text-shadow: var(--text-shadow); }
+.status h2 { font-size: 22px; text-shadow: var(--text-shadow); }
+.sub { font-size: 16px; }
+
+/* Dienstplan */
+.roster-top { display: flex; align-items: baseline; gap: 6px 16px; flex-wrap: wrap; margin-bottom: 12px; }
+.slots { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+@media (max-width: 680px) { .slots { grid-template-columns: minmax(0, 1fr); } }
+.slot { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 8px 12px; border: 2px dashed var(--line); border-radius: 12px; }
+.slot.taken { border: 2px solid var(--green); background: var(--green-soft); }
+.slot img { width: 40px; height: 40px; border-radius: 6px; image-rendering: pixelated; background: var(--line); flex: none; }
+.slot .info { min-width: 0; }
+.slot .name { font-size: 19px; line-height: 1.2; }
+.slot .dx { color: var(--muted); font-size: 14px; line-height: 1.25; }
+.slot .free { color: var(--muted); font-size: 16px; width: 100%; text-align: center; }
+
+/* Ranglisten: gleiche Abstände Titel -> Untertitel -> Liste */
+.ranks .card h3 { margin-bottom: 8px; }
+.ranks .card .sub { margin-bottom: 8px; }
+.ranks .top3 li:first-child { padding-top: 0; }
+.ranks .card h3 .ico { width: 34px; height: 34px; }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="glass-refract" x="0" y="0" width="100%" height="100%" color-interpolation-filters="sRGB"><feTurbulence type="fractalNoise" baseFrequency="0.006 0.01" numOctaves="2" seed="7" result="noise"/><feGaussianBlur in="noise" stdDeviation="3" result="soft"/><feDisplacementMap in="SourceGraphic" in2="soft" scale="28" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
 <div class="wrap">
 
   <header>
@@ -279,18 +360,10 @@ footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 3
     <span class="alarm" id="alarm"></span>
   </div>
 
-  <div class="grid">
-    <div class="card">
-      <h3>Dienstplan</h3>
-      <div class="big" id="occ">–</div>
-      <div class="slots" id="slots"></div>
-      <div class="sub" id="occText">&nbsp;</div>
-    </div>
-    <div class="card">
-      <h3>Ärzte im Dienst</h3>
-      <ul class="doctors" id="doctors"></ul>
-      <p class="empty" id="noDoctors">&nbsp;</p>
-    </div>
+  <div class="card roster">
+    <h3>Dienstplan</h3>
+    <div class="roster-top"><div class="big" id="occ">–</div><div class="sub" id="occText">&nbsp;</div></div>
+    <div class="slots" id="slots"></div>
   </div>
 
   <div class="card board">
@@ -314,7 +387,7 @@ footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 3
   <p class="hint" style="margin:-4px 0 14px">Eintragen im Spiel: <code>/todo add …</code> · <code>/todo erledigt 3</code> · <code>/notiz add …</code> · <code>/ort add Basis</code></p>
 
   <div class="card career" style="margin-bottom:14px">
-    <h3>Karriereverlauf · Dienstälteste Ärzte <span class="count" id="careerCount"></span></h3>
+    <h3>Karriereverlauf</h3>
     <div class="chead"><span></span><span>Arzt</span><span>Dienstzeit absolviert</span><span>Verlorene Patienten</span><span>Gelaufene km</span><span>Erfolgreiche Parasitenabwehr</span></div>
     <div id="career"></div>
     <p class="empty" id="noCareer">Noch keine Dienstakten vorhanden.</p>
@@ -335,6 +408,7 @@ footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 3
 
 <script>
 (function () {
+  if (window.chrome || /\bChrome\//.test(navigator.userAgent)) document.documentElement.classList.add("refract");
   var HOST = "play.antimedimedis.de";
   var REFRESH_MS = 60000;
 
@@ -351,13 +425,36 @@ footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 3
     "minzmeister": "Glans-Penis-Shaming"
   };
   var quotes = [
-    "„Haben Sie schon versucht, sich aus- und wieder einzuloggen?“",
-    "„Zwei Herzen sind kein Grund zur Sorge. Ein halbes schon.“",
-    "„Bitte keine Betten im Nether benutzen.“",
-    "„Goldene Äpfel sind keine Kassenleistung.“",
-    "„Der Creeper wollte nur kuscheln.“",
-    "„Totem der Unsterblichkeit: nur auf Rezept.“",
-    "„Wer heilt, hat recht. Wer respawnt, auch.“"
+    "Sssss... Spannungspneu!",
+    "Tetrodotoxin Kugelfisch",
+    ":)",
+    "Staublunge vom Strip-Mining...",
+    "Circulus Willisi wie ein Netherportal",
+    "Patient Wither, Diagnose Nekrose",
+    "S3 Leitlinie: Schwächetrank und Goldapfel",
+    "Genäht von Jeb",
+    "keine Patienten nur noch Creeper",
+    "Primum non nocere",
+    "GuMo Station!",
+    "2,5 mg Lorazepam für Pat. Enderman",
+    "Gar kein Bock",
+    "All is full of love",
+    "De humani corporis fabrica",
+    "Antibiose!",
+    "Macht endlich eure Ankis",
+    "Signing off",
+    "Fall damage ins Delir",
+    "Yada Yada Yada",
+    "Mmmmhh Femurkopfnekrose",
+    "n = 1, p < 0,05",
+    "So aber nicht auf Station!",
+    "Ceci n'est pas un Befund",
+    "/gamerule doDaylightCycle false: Nachtdienst",
+    "Lingering Potion (Retardiert)",
+    "Off-Label Spruch",
+    "new Patient();",
+    "ein Smaragd Aufwandsentschädigung fürs PJ",
+    "Pipi :-) hihi"
   ];
   document.getElementById("quote").textContent = quotes[Math.floor(Math.random() * quotes.length)].replace(/[„“]/g, "");
 
@@ -365,6 +462,10 @@ footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 3
     var d = v instanceof Date ? v : new Date(v);
     if (isNaN(d.getTime())) return "–";
     return d.toLocaleString("de-DE", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" }) + " Uhr";
+  }
+
+  function specialtyFor(name) {
+    return fixedSpecialties[name.toLowerCase()] || specialties[hash(name + new Date().toDateString()) % specialties.length];
   }
 
   function hash(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return Math.abs(h); }
@@ -475,47 +576,31 @@ footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 3
       el("statusText").textContent = "Der Server ist nicht erreichbar. Technik ist informiert.";
     }
 
-    // Dienstplan
+    // Dienstplan: jeder Platz zeigt den Arzt
     el("occ").textContent = online ? n + " / " + max : "– / " + max;
     var slots = el("slots"); slots.innerHTML = "";
+    var arr = players.list || [];
     for (var i = 0; i < max; i++) {
-      var b = document.createElement("div");
-      b.className = "slot" + (i < n ? " taken" : "");
-      b.textContent = i < n ? "🩺" : "";
-      b.title = i < n ? "besetzt" : "frei";
+      var b = node("div", "slot" + (i < n ? " taken" : ""));
+      if (i < n) {
+        var pl = arr[i];
+        var name = pl ? (pl.name_clean || pl.name || "Unbekannt") : "Unbekannt";
+        var img = document.createElement("img");
+        img.alt = ""; img.loading = "lazy";
+        img.src = "https://mc-heads.net/avatar/" + encodeURIComponent((pl && pl.uuid) || name) + "/32";
+        var info = node("div", "info");
+        info.appendChild(node("div", "name", "Dr. " + name));
+        info.appendChild(node("div", "dx", pl ? specialtyFor(name) : "Fachrichtung unbekannt"));
+        b.appendChild(img); b.appendChild(info);
+      } else {
+        b.appendChild(node("span", "free", online ? "Dienstplatz frei" : "Station geschlossen"));
+      }
       slots.appendChild(b);
     }
     el("occText").textContent = !online ? "Klinik außer Betrieb"
       : n === 0 ? "Niemand im Dienst"
       : n >= max ? "Keine Plätze frei"
       : (max - n) + " Platz" + (max - n === 1 ? "" : "e") + " frei";
-
-    // Ärzte
-    var list = el("doctors"); list.innerHTML = "";
-    var arr = players.list || [];
-    arr.forEach(function (p) {
-      var name = p.name_clean || p.name || "Unbekannt";
-      var li = document.createElement("li");
-      var img = document.createElement("img");
-      img.alt = ""; img.loading = "lazy";
-      img.src = "https://mc-heads.net/avatar/" + encodeURIComponent(p.uuid || name) + "/32";
-      var info = document.createElement("div");
-      var nm = document.createElement("div"); nm.className = "name"; nm.textContent = "Dr. " + name;
-      var dx = document.createElement("div"); dx.className = "dx";
-      dx.textContent = "Fachrichtung: " + (fixedSpecialties[name.toLowerCase()] || specialties[hash(name + new Date().toDateString()) % specialties.length]);
-      info.appendChild(nm); info.appendChild(dx);
-      li.appendChild(img); li.appendChild(info);
-      list.appendChild(li);
-    });
-    var hidden = n - arr.length;
-    if (online && hidden > 0) {
-      var li2 = document.createElement("li");
-      var sp = document.createElement("span"); sp.className = "dx";
-      sp.textContent = "+ " + hidden + " weitere im Dienst";
-      li2.appendChild(sp); list.appendChild(li2);
-    }
-    el("noDoctors").style.display = state === "alive" ? "none" : "block";
-    el("noDoctors").textContent = state === "dead" ? "Station verwaist. Nur der Monitor piept." : "Klinik außer Betrieb.";
 
     if (online && d.version) el("srvVer").textContent = d.version.name_clean || d.version.name || "Paper";
     el("updServer").textContent = stamp(d && d.retrieved_at ? new Date(d.retrieved_at) : new Date());
@@ -658,11 +743,12 @@ footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 3
     { key: "blocksMined", icon: "img/pickaxe.png", title: "Chirurgen",        sub: "abgebaute Blöcke",    fmt: function (v) { return nf.format(v); },       unit: "Blöcke" }
   ];
   var MEDALS = ["🥇", "🥈", "🥉"];
+  // sichtbare Pixel: Creeper/Gras 18x18, Diamant 22x26, Spitzhacke 26x26 -> optisch gleich groß (Retina: ganzzahlig)
+  var ICON_SIZE = { "img/creeper.png": [27, 27], "img/grass.png": [27, 27], "img/diamond.png": [22, 26], "img/pickaxe.png": [26, 26] };
 
   function renderStats(d) {
     el("updStats").textContent = d && d.updated ? stamp(d.updated) : "–";
     var players = ((d && d.players) || []).slice().sort(function (a, b) { return b.playTicks - a.playTicks; });
-    el("careerCount").textContent = players.length ? "(" + players.length + " Ärzte)" : "";
     var box = el("career"); box.innerHTML = "";
     players.forEach(function (p, i) {
       var row = node("div", "crow");
@@ -688,7 +774,7 @@ footer { text-align: center; color: var(--muted); font-size: 15px; margin-top: 3
         .sort(function (a, b) { return b[r.key] - a[r.key]; }).slice(0, 3);
       var card = node("div", "card");
       var h = node("h3");
-      var ic = node("span", "ico"); var im = document.createElement("img"); im.src = r.icon; im.alt = ""; ic.appendChild(im); h.appendChild(ic);
+      var ic = node("span", "ico"); var im = document.createElement("img"); im.src = r.icon; im.alt = ""; im.width = ICON_SIZE[r.icon][0]; im.height = ICON_SIZE[r.icon][1]; ic.appendChild(im); h.appendChild(ic);
       h.appendChild(document.createTextNode(r.title));
       card.appendChild(h);
       card.appendChild(node("div", "sub", r.sub));
