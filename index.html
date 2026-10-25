@@ -6,10 +6,15 @@
 <title>Notaufnahme · Anti Medi Medi Club</title>
 <meta name="description" content="Live-Status des Anti Medi Medi Club Minecraft-Servers">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%23d7263d'/><path d='M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z' fill='white'/></svg>">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="preload" href="fonts/MinecraftRegular.otf" as="font" type="font/otf" crossorigin>
+<link rel="preload" href="fonts/MinecraftTen.ttf" as="font" type="font/ttf" crossorigin>
 <style>
+@font-face { font-family: "MC"; src: url("fonts/MinecraftRegular.otf") format("opentype"); font-display: swap; }
+@font-face { font-family: "MCTen"; src: url("fonts/MinecraftTen.ttf") format("truetype"); font-display: swap; }
+:root {
+  --font-text: "MC", system-ui, sans-serif;
+  --font-title: "MCTen", "MC", system-ui, sans-serif;
+}
 :root {
   --bg: #eef3f1;
   --card: #ffffff;
@@ -45,20 +50,24 @@ html, body { margin: 0; }
 body {
   background: var(--bg);
   color: var(--ink);
-  font: 16px/1.5 "IBM Plex Sans", system-ui, sans-serif;
+  font: 18px/1.45 var(--font-text);
+  font-synthesis: none;
+  -webkit-font-smoothing: none;
   min-height: 100vh;
 }
 .wrap { max-width: 760px; margin: 0 auto; padding: 28px 16px 48px; }
 
 /* Header */
-header { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+header { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-bottom: 24px; text-align: center; }
+.logo { display: block; width: min(100%, 440px); height: auto; }
+.brand { display: flex; align-items: center; justify-content: center; gap: 12px; flex-wrap: wrap; }
 .cross {
-  width: 46px; height: 46px; border-radius: 11px; background: var(--red);
+  width: 34px; height: 34px; border-radius: 8px; background: var(--red);
   display: grid; place-items: center; flex: none;
 }
-.cross svg { width: 26px; height: 26px; }
-.brand small { display: block; color: var(--muted); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
-.brand h1 { margin: 0; font-size: 26px; line-height: 1.15; letter-spacing: -.01em; }
+.cross svg { width: 20px; height: 20px; }
+.brand h1 { margin: 0; line-height: 1.15; }
+.brand small { color: var(--muted); font-size: 16px; text-transform: uppercase; letter-spacing: .1em; }
 
 /* Status banner */
 .status {
@@ -87,16 +96,16 @@ header { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
 .monitor canvas { display: block; width: 100%; height: 130px; }
 .monitor .hud {
   position: absolute; top: 10px; right: 14px; text-align: right;
-  font-family: "IBM Plex Mono", monospace; color: var(--trace);
+  font-family: var(--font-text); color: var(--trace);
 }
 .monitor .hud .bpm { font-size: 34px; font-weight: 600; line-height: 1; }
 .monitor .hud .lbl { font-size: 11px; opacity: .7; letter-spacing: .1em; }
 .monitor .tag {
-  position: absolute; left: 14px; top: 10px; font: 600 11px "IBM Plex Mono", monospace;
+  position: absolute; left: 14px; top: 10px; font: 11px var(--font-text);
   color: var(--trace); opacity: .7; letter-spacing: .1em;
 }
 .monitor .alarm {
-  position: absolute; left: 14px; bottom: 10px; font: 600 12px "IBM Plex Mono", monospace;
+  position: absolute; left: 14px; bottom: 10px; font: 12px var(--font-text);
   color: var(--trace); letter-spacing: .08em; display: none;
 }
 .monitor.dead .alarm, .monitor.nosignal .alarm { display: block; }
@@ -104,9 +113,10 @@ header { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
 @keyframes blink { 50% { opacity: 0; } }
 
 /* Grid */
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-@media (max-width: 560px) { .grid { grid-template-columns: 1fr; } }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-bottom: 14px; }
+@media (max-width: 680px) { .grid { grid-template-columns: minmax(0, 1fr); } }
 .card {
+  min-width: 0; overflow-wrap: anywhere;
   background: var(--card); border: 1px solid var(--line); border-radius: 14px;
   padding: 16px 18px; box-shadow: var(--shadow);
 }
@@ -134,11 +144,11 @@ header { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
 /* Adresse */
 .addr { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .addr code {
-  font: 600 17px "IBM Plex Mono", monospace; background: var(--bg); padding: 8px 12px;
+  font: 17px var(--font-text); background: var(--bg); padding: 8px 12px;
   border-radius: 8px; border: 1px solid var(--line); word-break: break-all;
 }
 button, .btn {
-  font: 500 14px "IBM Plex Sans", sans-serif; cursor: pointer;
+  font: 14px var(--font-text); cursor: pointer;
   border: 1px solid var(--line); background: var(--card); color: var(--ink);
   padding: 8px 14px; border-radius: 8px; text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
 }
@@ -147,15 +157,15 @@ button:hover, .btn:hover { border-color: var(--muted); }
 .btn.primary:hover { filter: brightness(1.08); }
 
 .links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 12px; }
-.meta { font: 13px "IBM Plex Mono", monospace; color: var(--muted); }
+.meta { font: 13px var(--font-text); color: var(--muted); }
 .meta div { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; }
 .meta b { color: var(--ink); font-weight: 600; text-align: right; }
 
 /* Schwarzes Brett */
 .board { margin-bottom: 14px; }
 .board h3 .count { color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
-.board-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-@media (max-width: 560px) { .board-cols { grid-template-columns: 1fr; } }
+.board-cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+@media (max-width: 680px) { .board-cols { grid-template-columns: minmax(0, 1fr); } }
 .todos, .places { list-style: none; margin: 0; padding: 0; }
 .todos li { display: flex; gap: 10px; align-items: flex-start; padding: 7px 0; border-top: 1px solid var(--line); }
 .todos li:first-child, .places li:first-child { border-top: 0; }
@@ -179,12 +189,12 @@ button:hover, .btn:hover { border-color: var(--muted); }
 }
 .note .who { color: #6b5d33; display: block; margin-top: 6px; }
 .places li { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); flex-wrap: wrap; }
-.places .coords { font: 13px "IBM Plex Mono", monospace; color: var(--muted); }
+.places .coords { font: 13px var(--font-text); color: var(--muted); }
 .places a { color: var(--red); font-size: 13px; text-decoration: none; white-space: nowrap; }
 .places a:hover { text-decoration: underline; }
 .dim { font-size: 11px; padding: 1px 6px; border-radius: 99px; background: var(--bg); border: 1px solid var(--line); color: var(--muted); margin-left: 6px; }
 .hint { color: var(--muted); font-size: 13px; margin: 10px 0 0; }
-.hint code { font-family: "IBM Plex Mono", monospace; font-size: 12px; background: var(--bg); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--line); }
+.hint code { font-family: var(--font-text); font-size: 12px; background: var(--bg); padding: 1px 5px; border-radius: 4px; border: 1px solid var(--line); }
 
 /* Karriereverlauf */
 .career h3 .count { color: var(--muted); font-weight: 400; text-transform: none; letter-spacing: 0; }
@@ -192,7 +202,7 @@ button:hover, .btn:hover { border-color: var(--muted); }
 .chead { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; padding: 0 0 6px; border-bottom: 1px solid var(--line); }
 .crow { padding: 9px 0; border-top: 1px solid var(--line); font-size: 14px; }
 .chead + .crow { border-top: 0; }
-.crow .rank { color: var(--muted); font: 600 13px "IBM Plex Mono", monospace; }
+.crow .rank { color: var(--muted); font: 13px var(--font-text); }
 .crow .cname { display: flex; align-items: center; gap: 8px; font-weight: 500; min-width: 0; }
 .crow .cname img { width: 24px; height: 24px; border-radius: 4px; image-rendering: pixelated; background: var(--line); flex: none; }
 .crow .cname span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -205,18 +215,29 @@ button:hover, .btn:hover { border-color: var(--muted); }
   .crow .cvals { display: grid; grid-column: 2; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
   .crow .cval small { display: block; color: var(--muted); font-size: 11px; }
 }
-.ranks { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
-@media (max-width: 560px) { .ranks { grid-template-columns: 1fr; } }
+.ranks { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-bottom: 14px; }
+@media (max-width: 680px) { .ranks { grid-template-columns: minmax(0, 1fr); } }
 .ranks .card h3 { display: flex; align-items: center; gap: 8px; }
-.ranks .card h3 .ico { font-size: 16px; }
+.ranks .card h3 .ico { display: inline-grid; place-items: center; width: 32px; height: 32px; flex: none; }
+.ico img { image-rendering: pixelated; display: block; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .ico img { filter: invert(1); } }
+:root[data-theme="dark"] .ico img { filter: invert(1); }
 .top3 { list-style: none; margin: 0; padding: 0; }
 .top3 li { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-top: 1px solid var(--line); }
 .top3 li:first-child { border-top: 0; }
 .top3 .medal { width: 22px; text-align: center; flex: none; }
 .top3 img { width: 24px; height: 24px; border-radius: 4px; image-rendering: pixelated; background: var(--line); flex: none; }
 .top3 .nm { flex: 1; min-width: 0; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.top3 .v { font: 600 14px "IBM Plex Mono", monospace; white-space: nowrap; }
+.top3 .v { font: 16px var(--font-text); white-space: nowrap; flex: none; }
 .top3 .u { color: var(--muted); font-weight: 400; font-size: 12px; }
+
+/* Titel in Minecraft Ten */
+.brand h1, .status h2, .card h3, .big, .monitor .hud .bpm, .tag-title { font-family: var(--font-title); font-weight: normal; }
+.card h3 { font-size: 14px; letter-spacing: .04em; }
+.brand h1 { font-size: 26px; letter-spacing: 0; }
+.status h2 { font-size: 20px; }
+.big { font-size: 30px; }
+.monitor .hud .bpm { font-size: 36px; }
 
 footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 26px; }
 .quote { font-style: italic; }
@@ -226,12 +247,13 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
 <div class="wrap">
 
   <header>
-    <div class="cross" aria-hidden="true">
-      <svg viewBox="0 0 26 26"><path d="M9.5 2h7v7.5H24v7h-7.5V24h-7v-7.5H2v-7h7.5z" fill="#fff"/></svg>
-    </div>
+    <img class="logo" src="img/logo.webp" alt="Anti Medi Medi Club" width="2000" height="635">
     <div class="brand">
-      <small>Anti Medi Medi Club · Uniklinik</small>
+      <div class="cross" aria-hidden="true">
+        <svg viewBox="0 0 26 26"><path d="M9.5 2h7v7.5H24v7h-7.5V24h-7v-7.5H2v-7h7.5z" fill="#fff"/></svg>
+      </div>
       <h1>Zentrale Notaufnahme</h1>
+      <small>Uniklinik</small>
     </div>
   </header>
 
@@ -634,10 +656,10 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
   }
 
   var RANKINGS = [
-    { key: "deaths",      icon: "⚰️", title: "Sterbestation",    sub: "meiste Tode",         fmt: function (v) { return nf.format(v); },       unit: "Tode" },
-    { key: "km",          icon: "🏃", title: "Stationsspringer", sub: "gelaufene Kilometer", fmt: function (v) { return nf1.format(v); },      unit: "km" },
-    { key: "diamonds",    icon: "🩻", title: "Radiologen",       sub: "gefundene Diamanten", fmt: function (v) { return nf.format(v); },       unit: "💎" },
-    { key: "blocksMined", icon: "⛏️", title: "Chirurgen",        sub: "abgebaute Blöcke",    fmt: function (v) { return nf.format(v); },       unit: "Blöcke" }
+    { key: "deaths",      icon: "img/creeper.png", title: "Sterbestation",    sub: "meiste Tode",         fmt: function (v) { return nf.format(v); },       unit: "Tode" },
+    { key: "km",          icon: "img/grass.png", title: "Stationsspringer", sub: "gelaufene Kilometer", fmt: function (v) { return nf1.format(v); },      unit: "km" },
+    { key: "diamonds",    icon: "img/diamond.png", title: "Radiologen",       sub: "gefundene Diamanten", fmt: function (v) { return nf.format(v); },       unit: "Diamanten" },
+    { key: "blocksMined", icon: "img/pickaxe.png", title: "Chirurgen",        sub: "abgebaute Blöcke",    fmt: function (v) { return nf.format(v); },       unit: "Blöcke" }
   ];
   var MEDALS = ["🥇", "🥈", "🥉"];
 
@@ -669,7 +691,7 @@ footer { text-align: center; color: var(--muted); font-size: 13px; margin-top: 2
         .sort(function (a, b) { return b[r.key] - a[r.key]; }).slice(0, 3);
       var card = node("div", "card");
       var h = node("h3");
-      h.appendChild(node("span", "ico", r.icon));
+      var ic = node("span", "ico"); var im = document.createElement("img"); im.src = r.icon; im.alt = ""; ic.appendChild(im); h.appendChild(ic);
       h.appendChild(document.createTextNode(r.title));
       card.appendChild(h);
       card.appendChild(node("div", "sub", r.sub));
