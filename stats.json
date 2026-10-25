@@ -1,0 +1,85 @@
+{
+  "updated": "2026-10-25T07:19:19.708126467Z",
+  "players": [
+    {
+      "uuid": "31bbe822-efc3-46cb-9552-fb462abcbf09",
+      "name": "Pischinger",
+      "playTicks": 8481293,
+      "deaths": 81,
+      "km": 399.373,
+      "mobKills": 4736,
+      "diamonds": 317,
+      "blocksMined": 100284
+    },
+    {
+      "uuid": "24336e1b-3126-446d-b6d1-05e47d7a3dfe",
+      "name": "MinzMeister",
+      "playTicks": 2873469,
+      "deaths": 25,
+      "km": 104.235,
+      "mobKills": 161,
+      "diamonds": 50,
+      "blocksMined": 18459
+    },
+    {
+      "uuid": "b17ba046-a628-4b26-be81-b5a132f0b26c",
+      "name": "Euthyphron",
+      "playTicks": 2718080,
+      "deaths": 32,
+      "km": 132.377,
+      "mobKills": 1724,
+      "diamonds": 0,
+      "blocksMined": 47597
+    },
+    {
+      "uuid": "91a10650-28e2-455b-9380-c542f6a5ae38",
+      "name": "Mad_Max_1999",
+      "playTicks": 1807007,
+      "deaths": 14,
+      "km": 87.243,
+      "mobKills": 103,
+      "diamonds": 40,
+      "blocksMined": 13123
+    },
+    {
+      "uuid": "f1a435bc-4754-4f01-86ca-64a1f450c380",
+      "name": "Levsche",
+      "playTicks": 344935,
+      "deaths": 32,
+      "km": 12.249,
+      "mobKills": 29,
+      "diamonds": 0,
+      "blocksMined": 399
+    },
+    {
+      "uuid": "cb411aa2-2e37-4a70-83b4-7b81dda26c97",
+      "name": "StrangeMedic83",
+      "playTicks": 325091,
+      "deaths": 12,
+      "km": 8.876,
+      "mobKills": 24,
+      "diamonds": 0,
+      "blocksMined": 266
+    },
+    {
+      "uuid": "8112a2f4-7c9b-4b69-99e9-0f421d8b6ef5",
+      "name": "PoliceTris",
+      "playTicks": 94979,
+      "deaths": 11,
+      "km": 6.033,
+      "mobKills": 2,
+      "diamonds": 0,
+      "blocksMined": 32
+    },
+    {
+      "uuid": "de5ac2f9-421e-4e89-97fd-40efc2665f56",
+      "name": "kaddofl",
+      "playTicks": 71183,
+      "deaths": 3,
+      "km": 4.151,
+      "mobKills": 4,
+      "diamonds": 0,
+      "blocksMined": 57
+    }
+  ]
+}
