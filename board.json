@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-26T22:52:15.412459543Z",
+  "updated": "2026-10-26T22:52:26.346450994Z",
   "todos": [
     {
       "id": 2,
@@ -14,6 +14,13 @@
       "done": false,
       "author": "Pischinger",
       "created": "2026-10-26T22:52:15.412412753Z"
+    },
+    {
+      "id": 4,
+      "text": "End-portal finden",
+      "done": false,
+      "author": "Pischinger",
+      "created": "2026-10-26T22:52:26.346411074Z"
     }
   ],
   "notes": [
