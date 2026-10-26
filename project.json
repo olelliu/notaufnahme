@@ -1,0 +1,403 @@
+{
+  "name": "曼波mis_v2.4.3_XianyuMISv2.4.3",
+  "updated": "2026-10-26T22:47:07.979843191Z",
+  "items": [
+    {
+      "id": "dropper",
+      "count": 449,
+      "collected": 0
+    },
+    {
+      "id": "stone_bricks",
+      "count": 8,
+      "collected": 0
+    },
+    {
+      "id": "birch_sign",
+      "count": 50,
+      "collected": 0
+    },
+    {
+      "id": "white_concrete",
+      "count": 1159,
+      "collected": 0
+    },
+    {
+      "id": "sand",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "rail",
+      "count": 5,
+      "collected": 0
+    },
+    {
+      "id": "cactus",
+      "count": 2,
+      "collected": 0
+    },
+    {
+      "id": "glow_lichen",
+      "count": 2,
+      "collected": 0
+    },
+    {
+      "id": "heavy_weighted_pressure_plate",
+      "count": 2,
+      "collected": 0
+    },
+    {
+      "id": "cauldron",
+      "count": 2,
+      "collected": 0
+    },
+    {
+      "id": "comparator",
+      "count": 347,
+      "collected": 0
+    },
+    {
+      "id": "repeater",
+      "count": 430,
+      "collected": 0
+    },
+    {
+      "id": "jukebox",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "player_head",
+      "count": 6,
+      "collected": 0
+    },
+    {
+      "id": "water_bucket",
+      "count": 422,
+      "collected": 0
+    },
+    {
+      "id": "gold_block",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "note_block",
+      "count": 84,
+      "collected": 0
+    },
+    {
+      "id": "ladder",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "podzol",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "hopper",
+      "count": 1813,
+      "collected": 0
+    },
+    {
+      "id": "powered_rail",
+      "count": 487,
+      "collected": 0
+    },
+    {
+      "id": "oak_fence_gate",
+      "count": 49,
+      "collected": 0
+    },
+    {
+      "id": "composter",
+      "count": 149,
+      "collected": 0
+    },
+    {
+      "id": "ice",
+      "count": 4,
+      "collected": 0
+    },
+    {
+      "id": "observer",
+      "count": 544,
+      "collected": 0
+    },
+    {
+      "id": "oak_log",
+      "count": 136,
+      "collected": 0
+    },
+    {
+      "id": "piston",
+      "count": 90,
+      "collected": 0
+    },
+    {
+      "id": "activator_rail",
+      "count": 18,
+      "collected": 0
+    },
+    {
+      "id": "oak_trapdoor",
+      "count": 31,
+      "collected": 0
+    },
+    {
+      "id": "sticky_piston",
+      "count": 181,
+      "collected": 0
+    },
+    {
+      "id": "scaffolding",
+      "count": 198,
+      "collected": 0
+    },
+    {
+      "id": "spruce_planks",
+      "count": 119,
+      "collected": 0
+    },
+    {
+      "id": "redstone_block",
+      "count": 50,
+      "collected": 0
+    },
+    {
+      "id": "sea_lantern",
+      "count": 17,
+      "collected": 0
+    },
+    {
+      "id": "detector_rail",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "brewing_stand",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "white_stained_glass_pane",
+      "count": 75,
+      "collected": 0
+    },
+    {
+      "id": "lava_bucket",
+      "count": 2,
+      "collected": 0
+    },
+    {
+      "id": "soul_sand",
+      "count": 191,
+      "collected": 0
+    },
+    {
+      "id": "stone_brick_slab",
+      "count": 100,
+      "collected": 0
+    },
+    {
+      "id": "quartz_pillar",
+      "count": 100,
+      "collected": 0
+    },
+    {
+      "id": "pale_oak_door",
+      "count": 2,
+      "collected": 0
+    },
+    {
+      "id": "spruce_stairs",
+      "count": 48,
+      "collected": 0
+    },
+    {
+      "id": "light_blue_wool",
+      "count": 30,
+      "collected": 0
+    },
+    {
+      "id": "oak_leaves",
+      "count": 230,
+      "collected": 0
+    },
+    {
+      "id": "iron_chain",
+      "count": 5,
+      "collected": 0
+    },
+    {
+      "id": "redstone_torch",
+      "count": 280,
+      "collected": 0
+    },
+    {
+      "id": "slime_block",
+      "count": 3,
+      "collected": 0
+    },
+    {
+      "id": "chest",
+      "count": 1314,
+      "collected": 0
+    },
+    {
+      "id": "spruce_slab",
+      "count": 4,
+      "collected": 0
+    },
+    {
+      "id": "dispenser",
+      "count": 148,
+      "collected": 0
+    },
+    {
+      "id": "shulker_box",
+      "count": 45,
+      "collected": 0
+    },
+    {
+      "id": "barrel",
+      "count": 27,
+      "collected": 0
+    },
+    {
+      "id": "shroomlight",
+      "count": 71,
+      "collected": 0
+    },
+    {
+      "id": "spruce_trapdoor",
+      "count": 11,
+      "collected": 0
+    },
+    {
+      "id": "redstone",
+      "count": 629,
+      "collected": 0
+    },
+    {
+      "id": "target",
+      "count": 45,
+      "collected": 0
+    },
+    {
+      "id": "white_wool",
+      "count": 30,
+      "collected": 0
+    },
+    {
+      "id": "redstone_lamp",
+      "count": 15,
+      "collected": 0
+    },
+    {
+      "id": "pale_oak_trapdoor",
+      "count": 47,
+      "collected": 0
+    },
+    {
+      "id": "cobweb",
+      "count": 43,
+      "collected": 0
+    },
+    {
+      "id": "iron_trapdoor",
+      "count": 12,
+      "collected": 0
+    },
+    {
+      "id": "stone_brick_wall",
+      "count": 90,
+      "collected": 0
+    },
+    {
+      "id": "chiseled_quartz_block",
+      "count": 46,
+      "collected": 0
+    },
+    {
+      "id": "stone_pressure_plate",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "crafter",
+      "count": 4,
+      "collected": 0
+    },
+    {
+      "id": "chiseled_bookshelf",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "quartz_bricks",
+      "count": 236,
+      "collected": 0
+    },
+    {
+      "id": "moss_carpet",
+      "count": 129,
+      "collected": 0
+    },
+    {
+      "id": "white_stained_glass",
+      "count": 3239,
+      "collected": 0
+    },
+    {
+      "id": "stone_brick_stairs",
+      "count": 22,
+      "collected": 0
+    },
+    {
+      "id": "quartz_block",
+      "count": 6,
+      "collected": 0
+    },
+    {
+      "id": "oak_pressure_plate",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "obsidian",
+      "count": 12,
+      "collected": 0
+    },
+    {
+      "id": "quartz_stairs",
+      "count": 345,
+      "collected": 0
+    },
+    {
+      "id": "packed_ice",
+      "count": 377,
+      "collected": 0
+    },
+    {
+      "id": "quartz_slab",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "lever",
+      "count": 58,
+      "collected": 0
+    },
+    {
+      "id": "crafting_table",
+      "count": 1,
+      "collected": 0
+    }
+  ],
+  "recent": [],
+  "contributors": {}
+}
