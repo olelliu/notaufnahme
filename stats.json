@@ -1,25 +1,25 @@
 {
-  "updated": "2026-10-26T22:12:04.334364455Z",
+  "updated": "2026-10-26T22:27:04.334366415Z",
   "players": [
     {
       "uuid": "31bbe822-efc3-46cb-9552-fb462abcbf09",
       "name": "Pischinger",
-      "playTicks": 8654081,
+      "playTicks": 8672113,
       "deaths": 81,
-      "km": 407.473,
-      "mobKills": 4767,
+      "km": 408.443,
+      "mobKills": 4768,
       "diamonds": 317,
-      "blocksMined": 101070
+      "blocksMined": 101816
     },
     {
       "uuid": "24336e1b-3126-446d-b6d1-05e47d7a3dfe",
       "name": "MinzMeister",
-      "playTicks": 3268566,
+      "playTicks": 3286598,
       "deaths": 26,
-      "km": 118.343,
-      "mobKills": 421,
+      "km": 118.943,
+      "mobKills": 422,
       "diamonds": 50,
-      "blocksMined": 21707
+      "blocksMined": 22629
     },
     {
       "uuid": "b17ba046-a628-4b26-be81-b5a132f0b26c",
