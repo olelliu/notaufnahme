@@ -1,15 +1,15 @@
 {
-  "updated": "2026-10-26T20:27:03.234297430Z",
+  "updated": "2026-10-26T20:42:03.347513822Z",
   "players": [
     {
       "uuid": "31bbe822-efc3-46cb-9552-fb462abcbf09",
       "name": "Pischinger",
-      "playTicks": 8553857,
+      "playTicks": 8571898,
       "deaths": 81,
-      "km": 403.574,
+      "km": 403.787,
       "mobKills": 4747,
       "diamonds": 317,
-      "blocksMined": 100420
+      "blocksMined": 100430
     },
     {
       "uuid": "24336e1b-3126-446d-b6d1-05e47d7a3dfe",
@@ -24,12 +24,12 @@
     {
       "uuid": "b17ba046-a628-4b26-be81-b5a132f0b26c",
       "name": "Euthyphron",
-      "playTicks": 2718080,
+      "playTicks": 2730399,
       "deaths": 32,
-      "km": 132.377,
+      "km": 133.098,
       "mobKills": 1724,
       "diamonds": 0,
-      "blocksMined": 47597
+      "blocksMined": 47714
     },
     {
       "uuid": "91a10650-28e2-455b-9380-c542f6a5ae38",
@@ -62,6 +62,16 @@
       "blocksMined": 266
     },
     {
+      "uuid": "de5ac2f9-421e-4e89-97fd-40efc2665f56",
+      "name": "kaddofl",
+      "playTicks": 112025,
+      "deaths": 4,
+      "km": 5.518,
+      "mobKills": 15,
+      "diamonds": 0,
+      "blocksMined": 288
+    },
+    {
       "uuid": "8112a2f4-7c9b-4b69-99e9-0f421d8b6ef5",
       "name": "PoliceTris",
       "playTicks": 94979,
@@ -70,16 +80,6 @@
       "mobKills": 2,
       "diamonds": 0,
       "blocksMined": 32
-    },
-    {
-      "uuid": "de5ac2f9-421e-4e89-97fd-40efc2665f56",
-      "name": "kaddofl",
-      "playTicks": 92814,
-      "deaths": 3,
-      "km": 4.723,
-      "mobKills": 12,
-      "diamonds": 0,
-      "blocksMined": 227
     }
   ]
 }
