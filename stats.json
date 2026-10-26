@@ -1,15 +1,25 @@
 {
-  "updated": "2026-10-26T08:43:24.483649323Z",
+  "updated": "2026-10-26T08:58:30.199295610Z",
   "players": [
     {
       "uuid": "31bbe822-efc3-46cb-9552-fb462abcbf09",
       "name": "Pischinger",
-      "playTicks": 7840965,
-      "deaths": 74,
-      "km": 371.426,
-      "mobKills": 4548,
-      "diamonds": 312,
-      "blocksMined": 97747
+      "playTicks": 8529861,
+      "deaths": 81,
+      "km": 402.736,
+      "mobKills": 4743,
+      "diamonds": 317,
+      "blocksMined": 100341
+    },
+    {
+      "uuid": "24336e1b-3126-446d-b6d1-05e47d7a3dfe",
+      "name": "MinzMeister",
+      "playTicks": 3160944,
+      "deaths": 25,
+      "km": 116.281,
+      "mobKills": 401,
+      "diamonds": 50,
+      "blocksMined": 21338
     },
     {
       "uuid": "b17ba046-a628-4b26-be81-b5a132f0b26c",
@@ -22,44 +32,34 @@
       "blocksMined": 47597
     },
     {
-      "uuid": "24336e1b-3126-446d-b6d1-05e47d7a3dfe",
-      "name": "MinzMeister",
-      "playTicks": 2426591,
-      "deaths": 21,
-      "km": 89.926,
-      "mobKills": 131,
-      "diamonds": 50,
-      "blocksMined": 16512
-    },
-    {
       "uuid": "91a10650-28e2-455b-9380-c542f6a5ae38",
       "name": "Mad_Max_1999",
-      "playTicks": 1746080,
+      "playTicks": 1807007,
       "deaths": 14,
-      "km": 82.83,
-      "mobKills": 102,
+      "km": 87.243,
+      "mobKills": 103,
       "diamonds": 40,
-      "blocksMined": 13002
+      "blocksMined": 13123
     },
     {
       "uuid": "f1a435bc-4754-4f01-86ca-64a1f450c380",
       "name": "Levsche",
-      "playTicks": 186938,
-      "deaths": 21,
-      "km": 6.365,
-      "mobKills": 5,
+      "playTicks": 344935,
+      "deaths": 32,
+      "km": 12.249,
+      "mobKills": 29,
       "diamonds": 0,
-      "blocksMined": 377
+      "blocksMined": 399
     },
     {
       "uuid": "cb411aa2-2e37-4a70-83b4-7b81dda26c97",
       "name": "StrangeMedic83",
-      "playTicks": 167979,
-      "deaths": 4,
-      "km": 3.481,
-      "mobKills": 5,
+      "playTicks": 325091,
+      "deaths": 12,
+      "km": 8.876,
+      "mobKills": 24,
       "diamonds": 0,
-      "blocksMined": 160
+      "blocksMined": 266
     },
     {
       "uuid": "8112a2f4-7c9b-4b69-99e9-0f421d8b6ef5",
