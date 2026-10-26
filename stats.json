@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-26T08:16:44.311144015Z",
+  "updated": "2026-10-26T08:31:44.305000515Z",
   "players": [
     {
       "uuid": "31bbe822-efc3-46cb-9552-fb462abcbf09",
@@ -24,7 +24,7 @@
     {
       "uuid": "24336e1b-3126-446d-b6d1-05e47d7a3dfe",
       "name": "MinzMeister",
-      "playTicks": 2403730,
+      "playTicks": 2420483,
       "deaths": 21,
       "km": 89.926,
       "mobKills": 131,
