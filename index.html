@@ -414,6 +414,21 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
 .b-recent .grow { flex: 1; min-width: 0; overflow-wrap: anywhere; }
 .b-recent .when { color: var(--muted); font-size: 13px; white-space: nowrap; }
 .b-recent .v { white-space: nowrap; }
+/* Tabs + Rohmaterialien */
+.b-tabs { display: flex; gap: 6px; margin: 0 0 14px; border-bottom: 1px solid var(--line); }
+.tab {
+  font: 17px var(--font-title); letter-spacing: .02em; cursor: pointer; background: none; border: 0; color: var(--muted);
+  padding: 8px 14px; margin-bottom: -1px; border-bottom: 3px solid transparent; text-shadow: var(--text-shadow);
+}
+.tab { white-space: nowrap; }
+@media (max-width: 680px) { .tab { flex: 1; font-size: 14px; padding: 8px 6px; text-align: center; } }
+.tab:hover { color: var(--ink); }
+.tab.on { color: var(--ink); border-bottom-color: var(--green); }
+.b-hint { color: var(--muted); font-size: 14px; margin: 0 0 12px; }
+.tile.raw .t-num { font-size: 19px; }
+.tile.raw .t-num span { font-size: 15px; }
+.tile.raw .t-bar i { background: linear-gradient(90deg, #d49a2a, #ffd36a); }
+.b-empty { color: var(--muted); padding: 10px 2px; }
 </style>
 </head>
 <body>
@@ -488,12 +503,27 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
         <div class="b-stats" id="buildStats"></div>
       </div>
     </div>
-    <div class="b-chips" id="buildChips"></div>
-    <div class="b-grid" id="buildGrid"></div>
-    <button class="chip b-more" id="buildMore" type="button"></button>
-    <div class="b-cols" id="buildCols">
-      <div class="b-sec"><h4>Letzte Lieferungen</h4><ul class="b-recent" id="buildRecent"></ul></div>
-      <div class="b-sec"><h4>Top-Sammler</h4><ul class="b-recent" id="buildTop"></ul></div>
+    <div class="b-tabs" role="tablist">
+      <button class="tab on" data-tab="items" role="tab" type="button">Materialliste</button>
+      <button class="tab" data-tab="raw" role="tab" type="button">Rohmaterialien</button>
+    </div>
+    <div id="tabItems">
+      <div class="b-chips" id="buildChips"></div>
+      <div class="b-grid" id="buildGrid"></div>
+      <button class="chip b-more" id="buildMore" type="button"></button>
+      <div class="b-cols" id="buildCols">
+        <div class="b-sec"><h4>Letzte Lieferungen</h4><ul class="b-recent" id="buildRecent"></ul></div>
+        <div class="b-sec"><h4>Top-Sammler</h4><ul class="b-recent" id="buildTop"></ul></div>
+      </div>
+    </div>
+    <div id="tabRaw" hidden>
+      <div class="b-chips" id="rawModes">
+        <button class="chip on" data-mode="open" type="button">Noch fehlend</button>
+        <button class="chip" data-mode="all" type="button">Gesamtes Projekt</button>
+      </div>
+      <p class="b-hint" id="rawHint">Alle Zwischenprodukte (Bretter, Stangen, Redstone-Fackeln, Kisten …) sind schon in Rohstoffe umgerechnet. Die Mengen sind aufgerundet und gelten für Standard-Rezepte.</p>
+      <div class="b-chips" id="rawChips"></div>
+      <div class="b-grid" id="rawGrid"></div>
     </div>
   </div>
 
@@ -951,6 +981,11 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
     chiseled_quartz_block: "Gemeißelter Quarzblock", stone_pressure_plate: "Steindruckplatte", crafter: "Handwerker",
     chiseled_bookshelf: "Gemeißeltes Bücherregal", quartz_bricks: "Quarzziegel", moss_carpet: "Moosteppich", white_stained_glass: "Weißes Glas",
     stone_brick_stairs: "Steinziegeltreppe", quartz_block: "Quarzblock", oak_pressure_plate: "Eichendruckplatte", obsidian: "Obsidian",
+    bamboo: "Bambus", birch_log: "Birkenstamm", blaze_rod: "Lohenrute", blue_orchid: "Blaue Orchidee", bone_meal: "Knochenmehl",
+    cobblestone: "Bruchstein", diamond: "Diamant", glowstone_dust: "Leuchtsteinstaub", gold_ingot: "Goldbarren", gravel: "Kies",
+    iron_ingot: "Eisenbarren", moss_block: "Moosblock", prismarine_crystals: "Prismarinkristalle", prismarine_shard: "Prismarinscherbe",
+    quartz: "Netherquarz", shulker_shell: "Schulkerschale", slime_ball: "Schleimball", spruce_log: "Fichtenstamm", string: "Faden",
+    wheat: "Weizen", pale_oak_log: "Blasseichenstamm",
     quartz_stairs: "Quarztreppe", packed_ice: "Packeis", quartz_slab: "Quarzstufe", lever: "Hebel", crafting_table: "Werkbank"
   };
   var CATS = [
@@ -1061,7 +1096,90 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
       });
     el("buildCols").style.display = rec.children.length || top.children.length ? "grid" : "none";
     el("updBuild").textContent = d.updated ? stamp(d.updated) : "–";
+    renderRaw();
   }
+  // --- Rohmaterialien (Tab) ---------------------------------------------------
+  // rawunits.json: Rohstoffe pro Stück, aus den Minecraft-26.3-Rezepten berechnet.
+  var RAW_UNITS = null;
+  var RAWCATS = [
+    { key: "alle", label: "Alle" }, { key: "erz", label: "Erze & Metall" }, { key: "stein", label: "Stein & Erde" },
+    { key: "holz", label: "Holz & Pflanzen" }, { key: "beute", label: "Beute & Sonstiges" }
+  ];
+  var RAWGROUP = {
+    iron_ingot: "erz", gold_ingot: "erz", diamond: "erz", redstone: "erz", quartz: "erz", glowstone_dust: "erz",
+    cobblestone: "stein", sand: "stein", gravel: "stein", obsidian: "stein", podzol: "stein", ice: "stein",
+    prismarine_shard: "stein", prismarine_crystals: "stein", soul_sand: "stein",
+    oak_log: "holz", spruce_log: "holz", birch_log: "holz", pale_oak_log: "holz", bamboo: "holz", oak_leaves: "holz", wheat: "holz",
+    cactus: "holz", glow_lichen: "holz", moss_block: "holz", blue_orchid: "holz", shroomlight: "holz"
+  };
+  function rawGroup(id) { return RAWGROUP[id] || "beute"; }
+  var rawMode = "open", rawCat = "alle", activeTab = "items";
+
+  function computeRaw() {
+    var tot = {}, by = {};
+    buildData.items.forEach(function (i) {
+      var m = rawMode === "open" ? i.count - Math.min(i.collected || 0, i.count) : i.count;
+      if (m <= 0) return;
+      var unit = RAW_UNITS && RAW_UNITS[i.id];
+      if (!unit) { unit = {}; unit[i.id] = 1; }
+      Object.keys(unit).forEach(function (r) {
+        var a = unit[r] * m;
+        tot[r] = (tot[r] || 0) + a;
+        (by[r] = by[r] || []).push([i.id, a]);
+      });
+    });
+    return { tot: tot, by: by };
+  }
+
+  function renderRaw() {
+    if (!buildData || activeTab !== "raw") return;
+    var c = computeRaw(), all = Object.keys(c.tot).sort(function (a, b) { return c.tot[b] - c.tot[a]; });
+    var max = all.length ? c.tot[all[0]] : 1, per = {};
+    all.forEach(function (r) { var g = rawGroup(r); per[g] = (per[g] || 0) + 1; });
+    if (rawCat !== "alle" && !per[rawCat]) rawCat = "alle";
+    Array.prototype.forEach.call(el("rawModes").children, function (b) { b.classList.toggle("on", b.dataset.mode === rawMode); });
+    var chips = el("rawChips"); chips.innerHTML = "";
+    RAWCATS.forEach(function (cat) {
+      var n = cat.key === "alle" ? all.length : (per[cat.key] || 0);
+      if (!n) return;
+      var b = node("button", "chip" + (cat.key === rawCat ? " on" : ""), cat.label); b.type = "button";
+      b.appendChild(node("small", null, String(n)));
+      b.addEventListener("click", function () { rawCat = cat.key; renderRaw(); });
+      chips.appendChild(b);
+    });
+    var grid = el("rawGrid"); grid.innerHTML = "";
+    var shown = all.filter(function (r) { return rawCat === "alle" || rawGroup(r) === rawCat; });
+    if (!shown.length) {
+      grid.appendChild(node("div", "b-empty", rawMode === "open" ? "Alles gesammelt, es werden keine Rohstoffe mehr gebraucht." : "Keine Rohstoffe."));
+      return;
+    }
+    shown.forEach(function (r) {
+      var need = Math.ceil(c.tot[r] - 1e-9);
+      var t = node("div", "tile raw"); t.appendChild(itemIcon(r));
+      var m = node("div", "t-main");
+      m.appendChild(node("div", "t-name", deName(r)));
+      var num = node("div", "t-num", "≈ " + nf.format(need));
+      m.appendChild(num);
+      var bar = node("div", "t-bar"), fill = document.createElement("i");
+      fill.style.width = Math.max(3, Math.round(100 * c.tot[r] / max)) + "%"; bar.appendChild(fill); m.appendChild(bar);
+      var users = c.by[r].slice().sort(function (a, b) { return b[1] - a[1]; });
+      var sub = stacks(need, r) + (users.length ? " · u. a. " + users.slice(0, 3).map(function (u) { return deName(u[0]); }).join(", ") : "");
+      m.appendChild(node("div", "t-sub", sub));
+      t.title = users.slice(0, 8).map(function (u) { return deName(u[0]) + ": " + nf.format(Math.ceil(u[1] - 1e-9)); }).join("\n");
+      t.appendChild(m); grid.appendChild(t);
+    });
+  }
+
+  function setTab(name) {
+    activeTab = name;
+    el("tabItems").hidden = name !== "items"; el("tabRaw").hidden = name !== "raw";
+    Array.prototype.forEach.call(document.querySelectorAll(".b-tabs .tab"), function (b) { b.classList.toggle("on", b.dataset.tab === name); });
+    if (name === "raw") renderRaw();
+  }
+  Array.prototype.forEach.call(document.querySelectorAll(".b-tabs .tab"), function (b) { b.addEventListener("click", function () { setTab(b.dataset.tab); }); });
+  Array.prototype.forEach.call(el("rawModes").children, function (b) { b.addEventListener("click", function () { rawMode = b.dataset.mode; renderRaw(); }); });
+  fetch("rawunits.json").then(function (r) { return r.json(); }).then(function (j) { RAW_UNITS = j; renderRaw(); }).catch(function () { });
+
   el("buildMore").addEventListener("click", function () { buildAll = !buildAll; renderBuildList(); });
 
   function loadBuild() {
