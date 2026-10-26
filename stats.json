@@ -1,12 +1,12 @@
 {
-  "updated": "2026-10-26T17:57:02.884550723Z",
+  "updated": "2026-10-26T19:57:03.238847870Z",
   "players": [
     {
       "uuid": "31bbe822-efc3-46cb-9552-fb462abcbf09",
       "name": "Pischinger",
-      "playTicks": 8532519,
+      "playTicks": 8533741,
       "deaths": 81,
-      "km": 402.748,
+      "km": 402.784,
       "mobKills": 4743,
       "diamonds": 317,
       "blocksMined": 100341
@@ -74,12 +74,12 @@
     {
       "uuid": "de5ac2f9-421e-4e89-97fd-40efc2665f56",
       "name": "kaddofl",
-      "playTicks": 71183,
+      "playTicks": 90063,
       "deaths": 3,
-      "km": 4.151,
-      "mobKills": 4,
+      "km": 4.583,
+      "mobKills": 10,
       "diamonds": 0,
-      "blocksMined": 57
+      "blocksMined": 210
     }
   ]
 }
