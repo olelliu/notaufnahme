@@ -1,22 +1,22 @@
 {
-  "updated": "2026-10-26T21:12:04.334436038Z",
+  "updated": "2026-10-26T21:27:04.334396476Z",
   "players": [
     {
       "uuid": "31bbe822-efc3-46cb-9552-fb462abcbf09",
       "name": "Pischinger",
-      "playTicks": 8607136,
+      "playTicks": 8620401,
       "deaths": 81,
-      "km": 405.37,
-      "mobKills": 4748,
+      "km": 405.753,
+      "mobKills": 4749,
       "diamonds": 317,
       "blocksMined": 100446
     },
     {
       "uuid": "24336e1b-3126-446d-b6d1-05e47d7a3dfe",
       "name": "MinzMeister",
-      "playTicks": 3210494,
+      "playTicks": 3211696,
       "deaths": 25,
-      "km": 116.443,
+      "km": 116.497,
       "mobKills": 401,
       "diamonds": 50,
       "blocksMined": 21338
@@ -24,9 +24,9 @@
     {
       "uuid": "b17ba046-a628-4b26-be81-b5a132f0b26c",
       "name": "Euthyphron",
-      "playTicks": 2766413,
+      "playTicks": 2771545,
       "deaths": 32,
-      "km": 134.971,
+      "km": 135.099,
       "mobKills": 1725,
       "diamonds": 0,
       "blocksMined": 48733
@@ -64,7 +64,7 @@
     {
       "uuid": "de5ac2f9-421e-4e89-97fd-40efc2665f56",
       "name": "kaddofl",
-      "playTicks": 147970,
+      "playTicks": 151035,
       "deaths": 5,
       "km": 7.607,
       "mobKills": 16,
