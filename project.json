@@ -1,6 +1,6 @@
 {
   "name": "Sortiersystem",
-  "updated": "2026-10-27T10:20:11.837832373Z",
+  "updated": "2026-10-27T21:31:53.253210691Z",
   "items": [
     {
       "id": "dropper",
@@ -402,7 +402,7 @@
     {
       "id": "cobblestone",
       "count": 11131,
-      "collected": 3456
+      "collected": 11131
     },
     {
       "id": "iron_ingot",
@@ -574,12 +574,19 @@
     {
       "player": "MinzMeister",
       "item": "cobblestone",
+      "amount": 7675,
+      "time": "2026-10-27T21:31:53.253105644Z",
+      "raw": true
+    },
+    {
+      "player": "MinzMeister",
+      "item": "cobblestone",
       "amount": 3456,
       "time": "2026-10-27T10:20:11.837786144Z",
       "raw": true
     }
   ],
   "contributors": {
-    "MinzMeister": 3456
+    "MinzMeister": 11131
   }
 }
