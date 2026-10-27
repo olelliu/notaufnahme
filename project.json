@@ -1,6 +1,6 @@
 {
   "name": "Sortiersystem",
-  "updated": "2026-10-27T07:29:56.746457439Z",
+  "updated": "2026-10-27T09:59:02.733533414Z",
   "items": [
     {
       "id": "dropper",
@@ -394,6 +394,178 @@
     },
     {
       "id": "crafting_table",
+      "count": 1,
+      "collected": 0
+    }
+  ],
+  "raw": [
+    {
+      "id": "cobblestone",
+      "count": 11131,
+      "collected": 0
+    },
+    {
+      "id": "iron_ingot",
+      "count": 10721,
+      "collected": 0
+    },
+    {
+      "id": "oak_log",
+      "count": 7460,
+      "collected": 0
+    },
+    {
+      "id": "redstone",
+      "count": 6067,
+      "collected": 0
+    },
+    {
+      "id": "quartz",
+      "count": 4515,
+      "collected": 0
+    },
+    {
+      "id": "sand",
+      "count": 3848,
+      "collected": 0
+    },
+    {
+      "id": "ice",
+      "count": 3397,
+      "collected": 0
+    },
+    {
+      "id": "string",
+      "count": 718,
+      "collected": 0
+    },
+    {
+      "id": "gravel",
+      "count": 580,
+      "collected": 0
+    },
+    {
+      "id": "bone_meal",
+      "count": 554,
+      "collected": 0
+    },
+    {
+      "id": "gold_ingot",
+      "count": 496,
+      "collected": 0
+    },
+    {
+      "id": "wheat",
+      "count": 405,
+      "collected": 0
+    },
+    {
+      "id": "oak_leaves",
+      "count": 230,
+      "collected": 0
+    },
+    {
+      "id": "slime_ball",
+      "count": 208,
+      "collected": 0
+    },
+    {
+      "id": "bamboo",
+      "count": 198,
+      "collected": 0
+    },
+    {
+      "id": "soul_sand",
+      "count": 191,
+      "collected": 0
+    },
+    {
+      "id": "shulker_shell",
+      "count": 90,
+      "collected": 0
+    },
+    {
+      "id": "moss_block",
+      "count": 87,
+      "collected": 0
+    },
+    {
+      "id": "prismarine_crystals",
+      "count": 85,
+      "collected": 0
+    },
+    {
+      "id": "shroomlight",
+      "count": 71,
+      "collected": 0
+    },
+    {
+      "id": "prismarine_shard",
+      "count": 68,
+      "collected": 0
+    },
+    {
+      "id": "glowstone_dust",
+      "count": 60,
+      "collected": 0
+    },
+    {
+      "id": "spruce_log",
+      "count": 57,
+      "collected": 0
+    },
+    {
+      "id": "cobweb",
+      "count": 43,
+      "collected": 0
+    },
+    {
+      "id": "pale_oak_log",
+      "count": 37,
+      "collected": 0
+    },
+    {
+      "id": "blue_orchid",
+      "count": 30,
+      "collected": 0
+    },
+    {
+      "id": "birch_log",
+      "count": 25,
+      "collected": 0
+    },
+    {
+      "id": "obsidian",
+      "count": 12,
+      "collected": 0
+    },
+    {
+      "id": "player_head",
+      "count": 6,
+      "collected": 0
+    },
+    {
+      "id": "cactus",
+      "count": 2,
+      "collected": 0
+    },
+    {
+      "id": "glow_lichen",
+      "count": 2,
+      "collected": 0
+    },
+    {
+      "id": "diamond",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "podzol",
+      "count": 1,
+      "collected": 0
+    },
+    {
+      "id": "blaze_rod",
       "count": 1,
       "collected": 0
     }
