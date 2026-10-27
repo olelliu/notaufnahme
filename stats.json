@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-27T19:45:24.172082724Z",
+  "updated": "2026-10-27T20:00:24.173508781Z",
   "players": [
     {
       "uuid": "31bbe822-efc3-46cb-9552-fb462abcbf09",
@@ -64,12 +64,12 @@
     {
       "uuid": "de5ac2f9-421e-4e89-97fd-40efc2665f56",
       "name": "kaddofl",
-      "playTicks": 151035,
+      "playTicks": 161180,
       "deaths": 5,
-      "km": 7.607,
+      "km": 8.375,
       "mobKills": 16,
       "diamonds": 0,
-      "blocksMined": 310
+      "blocksMined": 602
     },
     {
       "uuid": "8112a2f4-7c9b-4b69-99e9-0f421d8b6ef5",
