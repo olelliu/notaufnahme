@@ -427,7 +427,6 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
 .b-hint { color: var(--muted); font-size: 14px; margin: 0 0 12px; }
 .tile.raw .t-num { font-size: 19px; }
 .tile.raw .t-num span { font-size: 15px; }
-.tile.raw .t-bar i { background: linear-gradient(90deg, #d49a2a, #ffd36a); }
 .b-empty { color: var(--muted); padding: 10px 2px; }
 </style>
 </head>
@@ -518,10 +517,11 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
     </div>
     <div id="tabRaw" hidden>
       <div class="b-chips" id="rawModes">
-        <button class="chip on" data-mode="open" type="button">Noch fehlend</button>
-        <button class="chip" data-mode="all" type="button">Gesamtes Projekt</button>
+        <button class="chip on" data-mode="open" type="button">Noch offen</button>
+        <button class="chip" data-mode="all" type="button">Alle</button>
       </div>
-      <p class="b-hint" id="rawHint">Alle Zwischenprodukte (Bretter, Stangen, Redstone-Fackeln, Kisten …) sind schon in Rohstoffe umgerechnet. Die Mengen sind aufgerundet und gelten für Standard-Rezepte.</p>
+      <div class="b-stats" id="rawStats" style="margin:0 0 10px"></div>
+      <p class="b-hint" id="rawHint">Alle Zwischenprodukte (Bretter, Stangen, Redstone-Fackeln, Kisten …) sind schon eingerechnet, die Mengen aufgerundet. Abhaken im Spiel mit /bau roh gesammelt.</p>
       <div class="b-chips" id="rawChips"></div>
       <div class="b-grid" id="rawGrid"></div>
     </div>
@@ -1115,32 +1115,51 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
   function rawGroup(id) { return RAWGROUP[id] || "beute"; }
   var rawMode = "open", rawCat = "alle", activeTab = "items";
 
-  function computeRaw() {
-    var tot = {}, by = {};
-    buildData.items.forEach(function (i) {
-      var m = rawMode === "open" ? i.count - Math.min(i.collected || 0, i.count) : i.count;
-      if (m <= 0) return;
+  // Liste der Rohstoffe: vom Plugin (project.raw, mit Fortschritt) oder, bei älteren Daten, aus den Rezepten berechnet.
+  function rawList() {
+    var d = buildData;
+    if (d.raw && d.raw.length) return d.raw;
+    var tot = {};
+    d.items.forEach(function (i) {
       var unit = RAW_UNITS && RAW_UNITS[i.id];
       if (!unit) { unit = {}; unit[i.id] = 1; }
-      Object.keys(unit).forEach(function (r) {
-        var a = unit[r] * m;
-        tot[r] = (tot[r] || 0) + a;
-        (by[r] = by[r] || []).push([i.id, a]);
-      });
+      Object.keys(unit).forEach(function (r) { tot[r] = (tot[r] || 0) + unit[r] * i.count; });
     });
-    return { tot: tot, by: by };
+    return Object.keys(tot).map(function (r) { return { id: r, count: Math.ceil(tot[r] - 1e-9), collected: 0 }; });
+  }
+  // Wofür wird ein Rohstoff gebraucht? (ganzes Projekt)
+  function rawUsers() {
+    var by = {};
+    buildData.items.forEach(function (i) {
+      var unit = RAW_UNITS && RAW_UNITS[i.id]; if (!unit) return;
+      Object.keys(unit).forEach(function (r) { (by[r] = by[r] || []).push([i.id, unit[r] * i.count]); });
+    });
+    return by;
   }
 
   function renderRaw() {
     if (!buildData || activeTab !== "raw") return;
-    var c = computeRaw(), all = Object.keys(c.tot).sort(function (a, b) { return c.tot[b] - c.tot[a]; });
-    var max = all.length ? c.tot[all[0]] : 1, per = {};
-    all.forEach(function (r) { var g = rawGroup(r); per[g] = (per[g] || 0) + 1; });
+    var full = rawList().slice(), users = rawUsers();
+    function miss(r) { return r.count - Math.min(r.collected || 0, r.count); }
+    full.sort(function (a, b) {
+      if ((miss(a) === 0) !== (miss(b) === 0)) return miss(a) === 0 ? 1 : -1;
+      return miss(b) - miss(a) || b.count - a.count;
+    });
+    // Zusammenfassung
+    var doneN = full.filter(function (r) { return miss(r) === 0; }).length;
+    var totalN = full.reduce(function (a, r) { return a + r.count; }, 0), gotN = full.reduce(function (a, r) { return a + Math.min(r.collected || 0, r.count); }, 0);
+    var st = el("rawStats"); st.innerHTML = "";
+    [[String(doneN), " von " + full.length + " Rohstoffen vollständig"], [(totalN ? Math.floor(100 * gotN / totalN) : 0) + " %", " der Rohstoff-Menge gesammelt"]].forEach(function (p) {
+      var sp = node("span"); sp.appendChild(node("b", null, p[0])); sp.appendChild(document.createTextNode(p[1])); st.appendChild(sp);
+    });
+    var list = rawMode === "open" ? full.filter(function (r) { return miss(r) > 0; }) : full;
+    var per = {};
+    list.forEach(function (r) { var g = rawGroup(r.id); per[g] = (per[g] || 0) + 1; });
     if (rawCat !== "alle" && !per[rawCat]) rawCat = "alle";
     Array.prototype.forEach.call(el("rawModes").children, function (b) { b.classList.toggle("on", b.dataset.mode === rawMode); });
     var chips = el("rawChips"); chips.innerHTML = "";
     RAWCATS.forEach(function (cat) {
-      var n = cat.key === "alle" ? all.length : (per[cat.key] || 0);
+      var n = cat.key === "alle" ? list.length : (per[cat.key] || 0);
       if (!n) return;
       var b = node("button", "chip" + (cat.key === rawCat ? " on" : ""), cat.label); b.type = "button";
       b.appendChild(node("small", null, String(n)));
@@ -1148,25 +1167,24 @@ footer { color: var(--on-bg-muted); border-top-color: rgba(255, 255, 255, .22); 
       chips.appendChild(b);
     });
     var grid = el("rawGrid"); grid.innerHTML = "";
-    var shown = all.filter(function (r) { return rawCat === "alle" || rawGroup(r) === rawCat; });
+    var shown = list.filter(function (r) { return rawCat === "alle" || rawGroup(r.id) === rawCat; });
     if (!shown.length) {
-      grid.appendChild(node("div", "b-empty", rawMode === "open" ? "Alles gesammelt, es werden keine Rohstoffe mehr gebraucht." : "Keine Rohstoffe."));
+      grid.appendChild(node("div", "b-empty", rawMode === "open" ? "Alle Rohstoffe sind gesammelt." : "Keine Rohstoffe."));
       return;
     }
     shown.forEach(function (r) {
-      var need = Math.ceil(c.tot[r] - 1e-9);
-      var t = node("div", "tile raw"); t.appendChild(itemIcon(r));
-      var m = node("div", "t-main");
-      m.appendChild(node("div", "t-name", deName(r)));
-      var num = node("div", "t-num", "≈ " + nf.format(need));
-      m.appendChild(num);
+      var got = Math.min(r.collected || 0, r.count), m = r.count - got;
+      var t = node("div", "tile raw" + (m === 0 ? " done" : "")); t.appendChild(itemIcon(r.id));
+      var main = node("div", "t-main");
+      main.appendChild(node("div", "t-name", deName(r.id)));
+      var num = node("div", "t-num", nf.format(got)); num.appendChild(node("span", null, " / " + nf.format(r.count))); main.appendChild(num);
       var bar = node("div", "t-bar"), fill = document.createElement("i");
-      fill.style.width = Math.max(3, Math.round(100 * c.tot[r] / max)) + "%"; bar.appendChild(fill); m.appendChild(bar);
-      var users = c.by[r].slice().sort(function (a, b) { return b[1] - a[1]; });
-      var sub = stacks(need, r) + (users.length ? " · u. a. " + users.slice(0, 3).map(function (u) { return deName(u[0]); }).join(", ") : "");
-      m.appendChild(node("div", "t-sub", sub));
-      t.title = users.slice(0, 8).map(function (u) { return deName(u[0]) + ": " + nf.format(Math.ceil(u[1] - 1e-9)); }).join("\n");
-      t.appendChild(m); grid.appendChild(t);
+      fill.style.width = Math.round(100 * got / r.count) + "%"; bar.appendChild(fill); main.appendChild(bar);
+      var us = (users[r.id] || []).slice().sort(function (a, b) { return b[1] - a[1]; });
+      var sub = m === 0 ? "vollständig" : "noch " + nf.format(m) + " · " + stacks(m, r.id) + (us.length ? " · u. a. " + us.slice(0, 3).map(function (u) { return deName(u[0]); }).join(", ") : "");
+      main.appendChild(node("div", "t-sub", sub));
+      t.title = us.slice(0, 8).map(function (u) { return deName(u[0]) + ": " + nf.format(Math.ceil(u[1] - 1e-9)); }).join("\n");
+      t.appendChild(main); grid.appendChild(t);
     });
   }
 
