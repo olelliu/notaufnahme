@@ -1,15 +1,15 @@
 {
-  "updated": "2026-10-28T20:45:50.658686209Z",
+  "updated": "2026-10-28T21:00:50.658650037Z",
   "players": [
     {
       "uuid": "31bbe822-efc3-46cb-9552-fb462abcbf09",
       "name": "Pischinger",
-      "playTicks": 8857316,
+      "playTicks": 8875347,
       "deaths": 81,
-      "km": 417.92,
-      "mobKills": 4916,
+      "km": 418.677,
+      "mobKills": 4955,
       "diamonds": 323,
-      "blocksMined": 109963
+      "blocksMined": 110886
     },
     {
       "uuid": "24336e1b-3126-446d-b6d1-05e47d7a3dfe",
