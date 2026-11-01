@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-01T19:30:56.334853944Z",
+  "updated": "2026-11-01T19:45:56.321689027Z",
   "players": [
     {
       "uuid": "31bbe822-efc3-46cb-9552-fb462abcbf09",
@@ -14,12 +14,12 @@
     {
       "uuid": "24336e1b-3126-446d-b6d1-05e47d7a3dfe",
       "name": "MinzMeister",
-      "playTicks": 3637931,
+      "playTicks": 3655958,
       "deaths": 26,
-      "km": 129.304,
-      "mobKills": 437,
+      "km": 130.017,
+      "mobKills": 439,
       "diamonds": 55,
-      "blocksMined": 24528
+      "blocksMined": 24575
     },
     {
       "uuid": "b17ba046-a628-4b26-be81-b5a132f0b26c",
